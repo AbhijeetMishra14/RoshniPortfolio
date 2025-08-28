@@ -95,6 +95,15 @@
             flex-direction: column;
             overflow: hidden;
         }
+        
+        @media (max-width: 768px) {
+            .blog-editor-container {
+                width: 100%;
+                height: 100%;
+                border-radius: 0;
+            }
+        }
+
 
         .blog-editor-container input,
         .blog-editor-container textarea {
@@ -174,31 +183,31 @@
     <!-- Navbar -->
     <nav class="fixed top-0 w-full bg-opacity-80 backdrop-filter backdrop-blur-lg z-50 shadow-lg"
         style="background-color: #1a202c;">
-        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="index.html" class="text-xl font-bold gradient-text">Roshni Portfolio</a>
-            <div class="space-x-4">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center flex-wrap">
+            <a href="index.html" class="text-xl font-bold gradient-text mb-2 sm:mb-0">Roshni Portfolio</a>
+            <div class="space-x-2 sm:space-x-4 flex-grow-0 flex-shrink-0">
                 <button id="addBlogNavBtn"
-                    class="btn-primary px-4 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 hidden">Add
+                    class="btn-primary px-3 py-1 sm:px-4 sm:py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 text-sm sm:text-base hidden">Add
                     Blog</button>
                 <button id="loginBtn"
-                    class="btn-primary px-4 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105">Login</button>
+                    class="btn-primary px-3 py-1 sm:px-4 sm:py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 text-sm sm:text-base">Login</button>
                 <button id="logoutBtn"
-                    class="bg-red-500 px-4 py-2 rounded-full font-semibold hover:bg-red-600 hidden transition-all duration-300 transform hover:scale-105">Logout</button>
+                    class="bg-red-500 px-3 py-1 sm:px-4 sm:py-2 rounded-full font-semibold hover:bg-red-600 hidden transition-all duration-300 transform hover:scale-105 text-sm sm:text-base">Logout</button>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <header class="pt-28 pb-12 text-center max-w-4xl mx-auto px-4">
-        <h1 class="text-5xl font-extrabold tracking-tight mb-4 gradient-text">Insights & Articles</h1>
-        <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 gradient-text">Insights & Articles</h1>
+        <p class="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto leading-relaxed">
             Dive into my thoughts on the latest tech trends, from AI to full-stack development.
             This is where I share my journey and discoveries.
         </p>
     </header>
 
     <!-- Insights Cards -->
-    <main id="cardsContainer" class="max-w-4xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <main id="cardsContainer" class="max-w-4xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
     </main>
 
     <footer class="py-6 text-center text-gray-500 border-t border-gray-700 mt-12">
@@ -207,44 +216,44 @@
 
     <!-- Login Modal -->
     <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center hidden">
-        <div class="neumorphic-card p-8 rounded-2xl shadow-lg w-96">
-            <h2 class="text-2xl font-bold text-center mb-4">Admin Login</h2>
-            <input id="email" type="email" placeholder="Email" class="input-field w-full p-3 mb-4 rounded-lg">
+        <div class="neumorphic-card p-6 sm:p-8 rounded-2xl shadow-lg w-11/12 max-w-sm">
+            <h2 class="text-xl sm:text-2xl font-bold text-center mb-4">Admin Login</h2>
+            <input id="email" type="email" placeholder="Email" class="input-field w-full p-3 mb-4 rounded-lg text-sm sm:text-base">
             <input id="password" type="password" placeholder="Password"
-                class="input-field w-full p-3 mb-6 rounded-lg">
+                class="input-field w-full p-3 mb-6 rounded-lg text-sm sm:text-base">
             <button id="submitLogin"
-                class="btn-primary w-full p-3 rounded-full font-bold transition-all duration-300 transform hover:scale-105">Login</button>
+                class="btn-primary w-full p-3 rounded-full font-bold transition-all duration-300 transform hover:scale-105 text-sm sm:text-base">Login</button>
         </div>
     </div>
 
     <!-- Add/Edit Blog Modal (Full-screen editor) -->
     <div id="addBlogModal" class="modal-overlay hidden">
         <div class="blog-editor-container neumorphic-card">
-            <h2 id="modalTitle" class="text-3xl font-bold mb-4 gradient-text">Create a New Blog Post</h2>
+            <h2 id="modalTitle" class="text-xl sm:text-3xl font-bold mb-4 gradient-text">Create a New Blog Post</h2>
             <input type="hidden" id="blogKey">
-            <!-- Three-column grid for editor, preview, and guide -->
-            <div class="grid md:grid-cols-3 gap-8 h-full min-h-[500px]">
+            <!-- Three-column grid for editor, preview, and guide, becomes single column on small screens -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 h-full min-h-[500px]">
                 <!-- Input/Editor Column -->
                 <div class="flex flex-col h-full">
                     <input id="blogTitle" type="text" placeholder="Blog Title"
-                        class="input-field w-full p-3 rounded-lg text-2xl font-semibold">
+                        class="input-field w-full p-3 rounded-lg text-lg sm:text-2xl font-semibold">
                     <input id="blogAuthor" type="text" placeholder="Author Name"
-                        class="input-field w-full p-3 rounded-lg text-lg">
+                        class="input-field w-full p-3 rounded-lg text-sm sm:text-lg">
                     <input id="blogImage" type="text" placeholder="Image URL (optional)"
-                        class="input-field w-full p-3 rounded-lg text-lg">
+                        class="input-field w-full p-3 rounded-lg text-sm sm:text-lg">
                     <!-- Markdown Editor -->
                     <textarea id="blogContent" placeholder="Start writing your blog content here..."
-                        class="input-field w-full p-3 rounded-lg text-base flex-grow min-h-[300px]"></textarea>
+                        class="input-field w-full p-3 rounded-lg text-sm sm:text-base flex-grow min-h-[200px]"></textarea>
                 </div>
                 <!-- Live Preview Column -->
-                <div class="flex flex-col h-full">
-                    <h3 class="text-xl font-bold mb-4 gradient-text">Live Preview</h3>
+                <div class="flex flex-col h-full hidden md:flex">
+                    <h3 class="text-lg sm:text-xl font-bold mb-4 gradient-text">Live Preview</h3>
                     <!-- This div will display the formatted markdown output -->
                     <div id="previewContent" class="input-field overflow-y-auto"></div>
                 </div>
                 <!-- Markdown Quick Guide Column -->
-                <div class="flex flex-col h-full">
-                    <h3 class="text-xl font-bold mb-4 gradient-text">Markdown Quick Guide</h3>
+                <div class="flex flex-col h-full hidden md:flex">
+                    <h3 class="text-lg sm:text-xl font-bold mb-4 gradient-text">Markdown Quick Guide</h3>
                     <div class="input-field overflow-y-auto">
                         <ul class="list-disc space-y-2 text-sm text-gray-400">
                             <li><strong>Headings:</strong> Use `#` to `###` for different sizes.</li>
@@ -272,21 +281,21 @@ console.log(myVar);`</li>
                     </div>
                 </div>
             </div>
-            <div class="flex justify-end space-x-4 mt-8">
+            <div class="flex justify-end space-x-2 sm:space-x-4 mt-4 sm:mt-8">
                 <button id="deleteBlogBtn"
-                    class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full font-bold transition-colors hidden">Delete
+                    class="bg-red-500 hover:bg-red-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-bold transition-colors hidden text-sm sm:text-base">Delete
                     Blog</button>
                 <button id="cancelAddBlogBtn"
-                    class="bg-gray-600 hover:bg-gray-500 text-white px-6 py-3 rounded-full font-bold transition-colors">Cancel</button>
+                    class="bg-gray-600 hover:bg-gray-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-bold transition-colors text-sm sm:text-base">Cancel</button>
                 <button id="addBlogBtn"
-                    class="btn-primary px-6 py-3 rounded-full font-bold transition-colors">Save Blog</button>
+                    class="btn-primary px-4 sm:px-6 py-2 sm:py-3 rounded-full font-bold transition-colors text-sm sm:text-base">Save Blog</button>
             </div>
         </div>
     </div>
 
     <!-- Custom alert/message box -->
     <div id="messageBox"
-        class="fixed bottom-8 right-8 bg-gray-800 text-white p-4 rounded-lg shadow-lg hidden transition-opacity duration-300">
+        class="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 bg-gray-800 text-white p-3 sm:p-4 rounded-lg shadow-lg hidden transition-opacity duration-300 text-sm sm:text-base">
         <p id="messageText"></p>
     </div>
 
@@ -445,7 +454,7 @@ console.log(myVar);
                 addBlogBtn.textContent = "Update Blog";
                 blogKeyInput.value = blogData.key;
                 blogTitleInput.value = blogData.title;
-                blogAuthorInput.value = blogData.author || "Roshni Mishra"; // Updated to set default on edit too
+                blogAuthorInput.value = blogData.author || "Roshni Mishra";
                 blogImageInput.value = blogData.image || "";
                 blogContentInput.value = blogData.content;
                 // Show both save and delete buttons for existing blogs
@@ -489,7 +498,7 @@ console.log(myVar);
         // Add/Edit blog logic
         addBlogBtn.addEventListener("click", () => {
             const title = blogTitleInput.value.trim();
-            const author = blogAuthorInput.value.trim() || "Roshni Mishra"; // Check and set default on save
+            const author = blogAuthorInput.value.trim() || "Roshni Mishra";
             const image = blogImageInput.value.trim();
             const content = blogContentInput.value.trim();
             const key = blogKeyInput.value.trim();
