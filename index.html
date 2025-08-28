@@ -76,6 +76,12 @@
             background-image: linear-gradient(to right, #2c3e50, var(--color-text-secondary));
         }
 
+        /* Highlight text with the secondary color */
+        .highlight {
+            color: var(--color-text-secondary);
+            font-weight: bold;
+        }
+
         .neumorphic-card {
             background-color: var(--color-bg-primary);
             box-shadow: 8px 8px 16px var(--color-card-shadow-dark), -8px -8px 16px var(--color-card-shadow-light);
@@ -105,20 +111,19 @@
 
         /* Mobile menu specific styles */
         #mobile-menu {
-            /* Now occupies 20% of the screen height */
-            height: 20vh;
+            height: 100vh;
             width: 100vw;
             transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s ease-in-out;
             transform: translateY(-100%) scale(0.95);
             opacity: 0;
-            overflow: hidden; /* Prevents overflow */
+            overflow: hidden;
         }
 
         #mobile-menu.active {
             transform: translateY(0) scale(1);
             opacity: 1;
         }
-        
+
         /* Staggered animation for menu links */
         #mobile-menu a {
             transform: translateY(20px);
@@ -130,13 +135,13 @@
             transform: translateY(0);
             opacity: 1;
         }
-        
+
         #mobile-menu.active a:nth-child(1) { transition-delay: 0.1s; }
         #mobile-menu.active a:nth-child(2) { transition-delay: 0.2s; }
         #mobile-menu.active a:nth-child(3) { transition-delay: 0.3s; }
         #mobile-menu.active a:nth-child(4) { transition-delay: 0.4s; }
         #mobile-menu.active a:nth-child(5) { transition-delay: 0.5s; }
-
+        #mobile-menu.active a:nth-child(6) { transition-delay: 0.6s; }
     </style>
 </head>
 
@@ -153,40 +158,51 @@
             <a href="#hero" class="text-xl font-bold gradient-text">Roshni</a>
             <!-- Desktop Nav Links -->
             <div class="hidden md:flex space-x-6">
-                <a href="#hero" class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Home</a>
-                <a href="#about" class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">About</a>
-                <a href="#skills" class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Skills</a>
-                <a href="#projects" class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Projects</a>
-                <a href="#contact" class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Contact</a>
+                <a id="nav-home" href="#hero"
+                    class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Home</a>
+                <a id="nav-about" href="#about"
+                    class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">About</a>
+                <a id="nav-skills" href="#skills"
+                    class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Skills</a>
+                <a id="nav-projects" href="#projects"
+                    class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Projects</a>
+                <a id="nav-contact" href="#contact"
+                    class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Contact</a>
             </div>
             <!-- Mobile Menu Button -->
             <button id="hamburger-btn" class="md:hidden p-2 rounded-md focus:outline-none"
                 style="background-color: var(--color-bg-secondary);">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                    style="color: var(--color-text-primary);">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg" style="color: var(--color-text-primary);">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    </path>
                 </svg>
             </button>
         </div>
     </nav>
-    
+
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu"
         class="fixed top-0 left-0 flex flex-col items-center justify-center bg-opacity-95 z-40"
         style="background-color: var(--color-bg-primary);">
         <button id="close-menu-btn" class="absolute top-6 right-6 p-2 rounded-md focus:outline-none"
             style="background-color: var(--color-bg-secondary);">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                style="color: var(--color-text-primary);">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg" style="color: var(--color-text-primary);">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
         </button>
         <div class="flex flex-col space-y-8 text-2xl font-bold text-center">
-            <a href="#hero" class="text-gray-400 hover:text-white transition-colors duration-300" onclick="hideMobileMenu()">Home</a>
-            <a href="#about" class="text-gray-400 hover:text-white transition-colors duration-300" onclick="hideMobileMenu()">About</a>
-            <a href="#skills" class="text-gray-400 hover:text-white transition-colors duration-300" onclick="hideMobileMenu()">Skills</a>
-            <a href="#projects" class="text-gray-400 hover:text-white transition-colors duration-300" onclick="hideMobileMenu()">Projects</a>
-            <a href="#contact" class="text-gray-400 hover:text-white transition-colors duration-300" onclick="hideMobileMenu()">Contact</a>
+            <a href="#hero" class="text-gray-400 hover:text-white transition-colors duration-300"
+                onclick="hideMobileMenu()">Home</a>
+            <a href="#about" class="text-gray-400 hover:text-white transition-colors duration-300"
+                onclick="hideMobileMenu()">About</a>
+            <a href="#skills" class="text-gray-400 hover:text-white transition-colors duration-300"
+                onclick="hideMobileMenu()">Skills</a>
+            <a href="#projects" class="text-gray-400 hover:text-white transition-colors duration-300"
+                onclick="hideMobileMenu()">Projects</a>
+            <a href="#contact" class="text-gray-400 hover:text-white transition-colors duration-300"
+                onclick="hideMobileMenu()">Contact</a>
         </div>
     </div>
 
@@ -214,109 +230,138 @@
             <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--color-text-primary);">About Me</h2>
             <div class="neumorphic-card p-8 rounded-2xl">
                 <p style="color: var(--color-text-primary); opacity: 0.8;" class="leading-relaxed mb-4">
-                    My journey in technology began with a Bachelor's in IT from NCIT College, Lalitpur, which gave me a
-                    strong foundation in software development principles and data structures. I have a deep passion for
-                    crafting
-                    beautiful and functional digital experiences.
+                    My journey in technology began with a Bachelor's in IT from <span class="highlight">NCIT College,
+                        Lalitpur</span>, which gave me a strong foundation in software development principles and data
+                    structures. I have a deep passion for crafting beautiful and functional digital experiences.
                 </p>
                 <p style="color: var(--color-text-primary); opacity: 0.8;" class="leading-relaxed">
-                    I am proficient in both front-end and back-end development, with a particular focus on the MERN
-                    stack
-                    and Python for building robust and dynamic applications. I'm always eager to learn new technologies
-                    and
-                    take on new challenges.
+                    I am proficient in both <span class="highlight">front-end and back-end development</span>, with a
+                    particular focus on the <span class="highlight">MERN stack</span> and <span
+                        class="highlight">Python</span> for building robust and dynamic applications. I'm always eager to
+                    learn new technologies and take on new challenges.
                 </p>
             </div>
         </section>
 
         <!-- Skills Section -->
-        <section id="skills" class="mb-16">
-            <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--color-text-primary);">Skills</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <!-- Skill Card: Python -->
-                <div class="neumorphic-card p-6 rounded-2xl text-center">
-                    <!-- Python SVG Icon -->
-                    <svg class="w-16 h-16 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24" style="color: var(--color-text-primary); opacity: 0.5;">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.32 15.68c-.62.5-1.42.82-2.32.82-1.85 0-3.35-1.5-3.35-3.35S10.25 10.8 12.1 10.8c.9 0 1.7.32 2.32.82v-2.88c-.62-.5-1.42-.82-2.32-.82-1.85 0-3.35 1.5-3.35 3.35S10.25 18 12.1 18c.9 0 1.7-.32 2.32-.82v-2.88z" />
-                    </svg>
-                    <span class="text-lg font-medium" style="color: var(--color-text-primary); opacity: 0.8;">Python</span>
-                </div>
-                <!-- Skill Card: MERN Stack -->
-                <div class="neumorphic-card p-6 rounded-2xl text-center">
-                    <!-- MERN Stack SVG Icon (placeholder) -->
-                    <svg class="w-16 h-16 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24" style="color: var(--color-text-primary); opacity: 0.5;">
-                        <path d="M12 2L2 12l10 10 10-10L12 2zM7 12l5-5 5 5H7z" />
-                    </svg>
-                    <span class="text-lg font-medium" style="color: var(--color-text-primary); opacity: 0.8;">MERN Stack</span>
-                </div>
-                <!-- Skill Card: HTML5 -->
-                <div class="neumorphic-card p-6 rounded-2xl text-center">
-                    <!-- HTML5 SVG Icon -->
-                    <svg class="w-16 h-16 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24" style="color: var(--color-text-primary); opacity: 0.5;">
-                        <path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 16H5V5h14v14zM10 9H8v2h2v2H8v2h2v-2h2V9h-2zm4 2h2v2h-2v-2z" />
-                    </svg>
-                    <span class="text-lg font-medium" style="color: var(--color-text-primary); opacity: 0.8;">HTML5</span>
-                </div>
-                <!-- Skill Card: CSS3 -->
-                <div class="neumorphic-card p-6 rounded-2xl text-center">
-                    <!-- CSS3 SVG Icon -->
-                    <svg class="w-16 h-16 mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24" style="color: var(--color-text-primary); opacity: 0.5;">
-                        <path d="M17.15 14.85l-1.41-1.41a1.99 1.99 0 00-2.83 0l-1.41 1.41a2 2 0 000 2.83l1.41 1.41a2 2 0 002.83 0l1.41-1.41a2 2 0 000-2.83zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.32 15.68c-.62.5-1.42.82-2.32.82-1.85 0-3.35-1.5-3.35-3.35S10.25 10.8 12.1 10.8c.9 0 1.7.32 2.32.82v-2.88c-.62-.5-1.42-.82-2.32-.82-1.85 0-3.35 1.5-3.35 3.35S10.25 18 12.1 18c.9 0 1.7-.32 2.32-.82v-2.88z" />
-                    </svg>
-                    <span class="text-lg font-medium" style="color: var(--color-text-primary); opacity: 0.8;">CSS3</span>
-                </div>
-            </div>
-        </section>
+       <section id="skills" class="mb-16">
+  <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--color-text-primary);">Skills</h2>
+  <div class="neumorphic-card p-8 rounded-2xl space-y-8">
+    <div>
+      <h3 class="text-2xl font-semibold gradient-text mb-4">Technical Skill-set</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8">
+        
+        <div>
+          <h4 class="text-xl font-medium highlight mb-2">Programming & Development</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">MERN Stack</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Python</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">PHP</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">JavaScript</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">React.js</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Node.js</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Express.js</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">MongoDB</span>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="text-xl font-medium highlight mb-2">Web Technologies</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">HTML5</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">CSS3</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Tailwind CSS</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Bootstrap</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">REST APIs</span>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="text-xl font-medium highlight mb-2">Tools & Version Control</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Git</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">GitHub</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">VS Code</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Postman</span>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="text-xl font-medium highlight mb-2">Other Skills</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Problem-Solving</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Teamwork</span>
+            <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Creativity</span>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
 
         <!-- Projects Section -->
         <section id="projects" class="mb-16">
             <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--color-text-primary);">Projects</h2>
             <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Project cards will be injected here by JavaScript -->
+                <!-- Nivaashub Project Card -->
+                <div class="neumorphic-card rounded-2xl p-6">
+                    <img src="https://placehold.co/800x600/1a202c/FFFFFF?text=Nivaashub" alt="Nivaashub Project"
+                        class="rounded-xl mb-4 w-full h-auto">
+                    <h3 class="text-xl font-semibold mb-2 gradient-text">Nivaashub: Nepal's First Room Rental System</h3>
+                    <p class="mb-4">
+                        A pioneering room rental platform designed to be Nepal's first <span
+                            class="highlight">affordable and user-centric system</span>. Developed a robust full-stack
+                        application that connects tenants with verified property owners, streamlining the rental process.
+                        Key features include a secure payment gateway, an intuitive search interface, and a comprehensive
+                        user dashboard.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/roshnimishra1591/nivaashub" target="_blank"
+                            class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-full transition-colors duration-300">
+                            GitHub
+                        </a>
+                        <!-- If a live demo exists, you can add it here -->
+                    </div>
+                </div>
                 <div class="text-center" style="color: var(--color-text-primary); opacity: 0.8;">
-                    <p>Loading projects from GitHub...</p>
+                    <p>Loading other projects from GitHub...</p>
                 </div>
             </div>
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="text-center mb-16">
-            <h2 class="text-3xl font-bold mb-8" style="color: var(--color-text-primary);">Get in Touch</h2>
-            <div class="flex justify-center space-x-8">
-                <!-- LinkedIn Icon -->
-                <a href="https://www.linkedin.com/in/roshni-mishra-1591/" target="_blank" aria-label="LinkedIn">
-                    <svg class="w-12 h-12" style="color: var(--color-text-primary); opacity: 0.5;" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11.442 20h-2.35v-11h2.35v11zm-1.175-12.274c-.792 0-1.436-.644-1.436-1.435 0-.791.644-1.435 1.436-1.435s1.436.644 1.436 1.435c0 .791-.644 1.435-1.436 1.435zm12.922 12.274h-2.35v-5.467c0-.28-.025-.561-.05-.837-.083-.563-.585-1.125-1.282-1.125-1.077 0-1.523.755-1.523 1.865v5.564h-2.35s.033-10.155 0-11h2.35v1.277c.31-.482 1.055-1.177 2.215-1.177 2.404 0 4.22 1.579 4.22 4.962v6.238z" />
-                    </svg>
-                </a>
-                <!-- GitHub Icon -->
-                <a href="https://github.com/roshnimishra1591" target="_blank" aria-label="GitHub">
-                    <svg class="w-12 h-12" style="color: var(--color-text-primary); opacity: 0.5;" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.835 2.809 1.305 3.492.998.108-.777.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.465-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.046.138 3.003.404 2.292-1.552 3.3-1.23 3.3-1.23.653 1.653.242 2.873.118 3.176.771.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.197-6.095 8.197-11.389 0-6.627-5.373-12-12-12z" />
-                    </svg>
-                </a>
-                <!-- Instagram Icon -->
-                <a href="https://www.instagram.com/roshnimishra6078/" target="_blank" aria-label="Instagram">
-                    <svg class="w-12 h-12" style="color: var(--color-text-primary); opacity: 0.5;" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M12 2c-2.712 0-3.056.012-4.123.06L7 2.18c-1.066.048-1.745.244-2.396.48-1.127.42-2.043 1.337-2.463 2.463-.236.651-.432 1.33-.48 2.396L2.06 7.877C2.012 8.944 2 9.288 2 12s.012 3.056.06 4.123l.12 1.066c.048 1.066.244 1.745.48 2.396 1.127 1.127 2.043 2.043 2.463 2.463.651.236 1.33.432 2.396.48l1.066.12c1.067.048 1.411.06 4.123.06s3.056-.012 4.123-.06l1.066-.12c1.066-.048 1.745-.244 2.396-.48 1.127-1.127 2.043-2.043 2.463-2.463.236-.651.432-1.33.48-2.396l.12-1.066c.048-1.067.06-1.411.06-4.123s-.012-3.056-.06-4.123l-.12-1.066c-.048-1.066-.244-1.745-.48-2.396C20.663 3.337 19.747 2.421 18.62 2s-1.33-.432-2.396-.48l-1.066-.12C14.056 2.012 13.712 2 12 2zm0 2.211c2.405 0 2.72.012 3.693.054l.95.114c.82.048 1.25.215 1.54.316.716.248 1.22.753 1.468 1.468.101.29.268.72.316 1.54l.114.95c.042.973.054 1.288.054 3.693s-.012 2.72-.054 3.693l-.114.95c-.048.82-.215 1.25-.316 1.54-.248.716-.753 1.22-1.468 1.468-.29.101-.72.268-1.54.316l-.95.114c-.973.042-1.288.054-3.693.054s-2.72-.012-3.693-.054l-.95-.114c-.82-.048-1.25-.215-1.54-.316-.248-.716-.753-1.22-1.468-1.468-.101-.29-.268-.72-.316-1.54l-.114-.95c-.042-.973-.054-1.288-.054-3.693s.012-2.72.054-3.693l.114-.95c.048-.82.215-1.25.316-1.54.248-.716.753-1.22 1.468-1.468.29-.101.72-.268 1.54-.316l.95-.114c.973-.042 1.288-.054 3.693-.054zm0 2.211c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 1.5c1.657 0 3 1.343 3 3s-1.343 3-3 3-3-1.343-3-3 1.343-3 3-3zm5.727-4.144c.465 0 .841.376.841.841s-.376.841-.841.841-.841-.376-.841-.841.376-.841.841-.841z" />
-                    </svg>
-                </a>
+        <section id="contact" class="mb-16 text-center">
+            <h2 class="text-3xl font-bold mb-8" style="color: var(--color-text-primary);">Let's Connect</h2>
+            <div class="neumorphic-card p-8 rounded-2xl">
+                <p style="color: var(--color-text-primary); opacity: 0.8;" class="leading-relaxed mb-8">
+                    "Learning becomes impactful when applied, and technology becomes truly powerful when it's used to solve real-world problems and inspire others.
+                    I’m excited to keep pushing the boundaries of robotics, AI, and innovation turning curiosity into creation and ideas into action."
+                </p>
+                <div class="flex flex-col md:flex-row justify-center items-center md:space-x-8 space-y-4 md:space-y-0">
+                    <p>📞 Phone: <a href="tel:+9779816746292" class="gradient-text font-semibold hover:underline">+977 9816746292</a></p>
+                    <p>📧 Email: <a href="mailto:roshnimishra1591@gmail.com" class="gradient-text font-semibold hover:underline">roshnimishra1591@gmail.com</a></p>
+                </div>
+                <div class="mt-8 flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+                    <div class="mb-4 md:mb-0">
+                        <p class="font-bold">Education</p>
+                        <p>NCIT College, Lalitpur</p>
+                        <p>Address: Lalitpur, Nepal</p>
+                    </div>
+                    <div class="flex flex-col space-y-4">
+                        <a href="mailto:roshnimishra1591@gmail.com" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">Get In Touch</a>
+                        <a href="#" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">Read My Insights</a>
+                        <a href="#" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">Download CV</a>
+                    </div>
+                </div>
             </div>
-            <p style="color: var(--color-text-primary); opacity: 0.8;" class="mt-6">
-                Email: <a href="mailto:roshnimishra1591@gmail.com"
-                    class="gradient-text font-semibold hover:underline">roshnimishra1591@gmail.com</a>
-                <br>
-                Phone: <a href="tel:+9779816746292"
-                    class="gradient-text font-semibold hover:underline">+977 9816746292</a>
-            </p>
         </section>
 
         <!-- Footer -->
-        <footer style="color: var(--color-text-primary); opacity: 0.5;" class="text-center text-sm mt-8">
-            <p>&copy; 2024 Roshni Mishra. All Rights Reserved.</p>
+        <footer style="color: var(--color-text-primary); opacity: 0.5;" class="text-center text-sm mt-8 pb-4">
+            <p>Designed & Built by Roshni Mishra (v2.0)</p>
         </footer>
 
     </div>
@@ -326,14 +371,16 @@
         class="fixed bottom-4 left-4 z-50 p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none"
         style="background-color: var(--color-bg-secondary);">
         <!-- Moon SVG -->
-        <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-300 transition-colors duration-300"
-            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-yellow-300 transition-colors duration-300" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
         </svg>
         <!-- Sun SVG (hidden by default) -->
-        <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-400 transition-colors duration-300 hidden"
-            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-orange-400 transition-colors duration-300 hidden" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
@@ -342,7 +389,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const projectsContainer = document.getElementById('projects-container');
-            const profileImg = document.getElementById('profile-img');
             const themeToggleBtn = document.getElementById('theme-toggle');
             const moonIcon = document.getElementById('moon-icon');
             const sunIcon = document.getElementById('sun-icon');
@@ -376,37 +422,43 @@
 
             // Function to update content based on the current theme
             function updateContentTheme(isLightTheme) {
-                // The profile image URL is now static, so we don't need to change it
-                // based on the theme.
-                const projectImgBg = isLightTheme ? 'f0f4f8' : '1a202c';
+                const projectImgBg = isLightTheme ? 'e2e8f0' : '1a202c';
                 const projectImgColor = isLightTheme ? '1a202c' : 'FFFFFF';
-                // Update project card image backgrounds
                 const projectImages = projectsContainer.querySelectorAll('img');
                 projectImages.forEach(img => {
-                    const repoName = img.alt.replace(' Project', '');
-                    const projectImgUrl = `https://placehold.co/800x600/${projectImgBg}/${projectImgColor}?text=${repoName}`;
-                    if (img.src !== projectImgUrl) {
-                        img.src = projectImgUrl;
+                    if (img.alt !== "Nivaashub Project") {
+                      const repoName = img.alt.replace(' Project', '');
+                      const projectImgUrl = `https://placehold.co/800x600/${projectImgBg}/${projectImgColor}?text=${repoName}`;
+                      if (img.src !== projectImgUrl) {
+                          img.src = projectImgUrl;
+                      }
                     }
                 });
             }
 
             const fetchProjects = async () => {
                 try {
-                    const response = await fetch(`https://api.github.com/users/${username}/repos?sort=pushed&per_page=6`);
+                    const response = await fetch(`https://api.github.com/users/${username}/repos?sort=pushed&per_page=5`);
                     if (!response.ok) {
                         throw new Error(`GitHub API returned an error: ${response.statusText}`);
                     }
                     const repos = await response.json();
 
-                    projectsContainer.innerHTML = ''; // Clear the loading message
+                    const loadingPlaceholder = projectsContainer.querySelector('div.text-center');
+                    if (loadingPlaceholder) {
+                        loadingPlaceholder.remove();
+                    }
 
                     if (repos.length === 0) {
-                        projectsContainer.innerHTML = `<p class="text-center">No public repositories found for this user.</p>`;
+                        projectsContainer.innerHTML += `<p class="text-center">No public repositories found for this user.</p>`;
                         return;
                     }
 
                     repos.forEach(repo => {
+                        if (repo.name.toLowerCase() === 'nivaashub') {
+                            return;
+                        }
+
                         const description = repo.description || 'No description provided.';
                         const projectCard = `
                             <div class="neumorphic-card rounded-2xl p-6">
@@ -430,7 +482,7 @@
                         `;
                         projectsContainer.innerHTML += projectCard;
                     });
-                    
+
                     updateContentTheme(body.classList.contains('theme-light'));
                 } catch (error) {
                     console.error("Failed to fetch projects:", error);
@@ -467,8 +519,8 @@
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 1.5 + 0.5;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = (Math.random() - 0.5) * 0.4;
+                this.vx = (Math.random() - 0.5) * 0.6;
+                this.vy = (Math.random() - 0.5) * 0.6;
             }
 
             function initParticles() {
@@ -490,8 +542,7 @@
 
                 for (let i = 0; i < particles.length; i++) {
                     const p1 = particles[i];
-                    
-                    // Update and draw particle
+
                     p1.x += p1.vx;
                     p1.y += p1.vy;
                     if (p1.x + p1.size > canvas.width || p1.x - p1.size < 0) p1.vx *= -1;
@@ -502,7 +553,6 @@
                     ctx.arc(p1.x, p1.y, p1.size, 0, Math.PI * 2);
                     ctx.fill();
 
-                    // Connect with other particles
                     for (let j = i + 1; j < particles.length; j++) {
                         const p2 = particles[j];
                         const dx = p1.x - p2.x;
@@ -519,12 +569,11 @@
                         }
                     }
 
-                    // Connect with mouse
                     if (mouseX !== null && mouseY !== null) {
                         const dx = p1.x - mouseX;
                         const dy = p1.y - mouseY;
                         const distance = Math.sqrt(dx * dx + dy * dy);
-                        
+
                         if (distance < 120) {
                             ctx.beginPath();
                             ctx.moveTo(p1.x, p1.y);
@@ -549,6 +598,35 @@
             });
 
             animate();
+
+            const sections = document.querySelectorAll('section, header');
+            const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const currentSectionId = entry.target.id;
+                        navLinks.forEach(link => {
+                            link.classList.remove('text-white');
+                            link.classList.add('text-gray-400');
+                            if (link.getAttribute('href') === `#${currentSectionId}`) {
+                                link.classList.add('text-white');
+                                link.classList.remove('text-gray-400');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
         });
     </script>
 </body>
