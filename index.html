@@ -182,9 +182,13 @@
     <!-- Interactive Canvas Background -->
     <canvas id="background-canvas"></canvas>
 
+    <!-- Scroll Progress Bar -->
+    <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-pink-500 to-purple-500 z-50"
+        style="width: 0;"></div>
+
     <!-- Navbar -->
-    <nav class="fixed top-0 w-full bg-opacity-80 backdrop-filter backdrop-blur-lg z-50 shadow-lg"
-        style="background-color: var(--color-bg-primary);">
+    <nav class="fixed top-0 w-full bg-opacity-80 backdrop-filter backdrop-blur-lg z-40 shadow-lg"
+        style="background-color: var(--color-bg-primary); margin-top: 4px;">
         <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
             <!-- Logo/Name -->
             <a href="#home" class="text-xl font-bold gradient-text">Roshni</a>
@@ -201,15 +205,17 @@
                 <a id="nav-contact" href="#contact"
                     class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Contact</a>
             </div>
-            <!-- Mobile Menu Button -->
-            <button id="hamburger-btn" class="md:hidden p-2 rounded-md focus:outline-none"
-                style="background-color: var(--color-bg-secondary);">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg" style="color: var(--color-text-primary);">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
-                    </path>
-                </svg>
-            </button>
+        </div>
+    </nav>
+    <!-- Mobile Menu Button -->
+    <button id="hamburger-btn" class="md:hidden p-2 rounded-md focus:outline-none"
+        style="background-color: var(--color-bg-secondary);">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+            style="color: var(--color-text-primary);">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+            </path>
+        </svg>
+    </button>
     </nav>
 
     <!-- Mobile Menu Overlay -->
@@ -592,6 +598,13 @@
                 link.addEventListener('click', () => {
                     mobileMenu.classList.remove('active');
                 });
+            });
+
+            window.addEventListener("scroll", () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById("progress-bar").style.width = scrollPercent + "%";
             });
 
             // Function to update content based on the current theme
