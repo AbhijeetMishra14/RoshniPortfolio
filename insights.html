@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roshni Insights - Explore Tech Trends</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Include Marked.js for live markdown preview -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c;
+            color: #cbd5e0;
+        }
+
+        .gradient-text {
+            background-image: linear-gradient(to right, #66d9ef, #a6e22e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .neumorphic-card {
+            background-color: #1a202c;
+            box-shadow: 8px 8px 16px #121820, -8px -8px 16px #22283a;
+            transition: all 0.3s ease;
+        }
+
+        .neumorphic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 12px 12px 24px #121820, -12px -12px 24px #22283a;
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background-color: #a6e22e;
+            color: #1a202c;
+        }
+
+        .btn-primary:hover {
+            background-color: #92cd2a;
+        }
+
+        .btn-secondary {
+            background-color: #66d9ef;
+            color: #1a202c;
+        }
+
+        .btn-secondary:hover {
+            background-color: #55c6db;
+        }
+
+        .input-field {
+            background-color: #2d3748;
+            color: #cbd5e0;
+            border: none;
+            box-shadow: inset 2px 2px 5px #121820, inset -2px -2px 5px #22283a;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .blog-editor-container {
+            width: 95%;
+            height: 95%;
+            max-width: 1400px;
+            background-color: #1a202c;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .blog-editor-container input,
+        .blog-editor-container textarea {
+            background-color: #2d3748;
+            color: #cbd5e0;
+            border: none;
+            box-shadow: inset 2px 2px 5px #121820, inset -2px -2px 5px #22283a;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-editor-container textarea {
+            flex-grow: 1;
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        /* Style for live preview of markdown */
+        #previewContent {
+            background-color: #2d3748;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            overflow-y: auto;
+            border: 2px solid #2d3748;
+            height: 100%;
+            /* Important for grid layout */
+        }
+
+        #previewContent h1,
+        #previewContent h2,
+        #previewContent h3 {
+            font-weight: bold;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        #previewContent h1 {
+            font-size: 2.25rem;
+            color: #a6e22e;
+        }
+
+        #previewContent h2 {
+            font-size: 1.75rem;
+            color: #a6e22e;
+        }
+
+        #previewContent h3 {
+            font-size: 1.5rem;
+            color: #66d9ef;
+        }
+
+        #previewContent p {
+            margin-bottom: 1rem;
+        }
+
+        #previewContent ul,
+        #previewContent ol {
+            list-style-position: inside;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        #previewContent ul {
+            list-style-type: disc;
+        }
+
+        #previewContent a {
+            color: #66d9ef;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full bg-opacity-80 backdrop-filter backdrop-blur-lg z-50 shadow-lg"
+        style="background-color: #1a202c;">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold gradient-text">Roshni Portfolio</a>
+            <div class="space-x-4">
+                <button id="addBlogNavBtn"
+                    class="btn-primary px-4 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 hidden">Add
+                    Blog</button>
+                <button id="loginBtn"
+                    class="btn-primary px-4 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105">Login</button>
+                <button id="logoutBtn"
+                    class="bg-red-500 px-4 py-2 rounded-full font-semibold hover:bg-red-600 hidden transition-all duration-300 transform hover:scale-105">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-28 pb-12 text-center max-w-4xl mx-auto px-4">
+        <h1 class="text-5xl font-extrabold tracking-tight mb-4 gradient-text">Insights & Articles</h1>
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            Dive into my thoughts on the latest tech trends, from AI to full-stack development.
+            This is where I share my journey and discoveries.
+        </p>
+    </header>
+
+    <!-- Insights Cards -->
+    <main id="cardsContainer" class="max-w-4xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    </main>
+
+    <footer class="py-6 text-center text-gray-500 border-t border-gray-700 mt-12">
+        <p class="text-sm">© 2025 Roshni Portfolio. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center hidden">
+        <div class="neumorphic-card p-8 rounded-2xl shadow-lg w-96">
+            <h2 class="text-2xl font-bold text-center mb-4">Admin Login</h2>
+            <input id="email" type="email" placeholder="Email" class="input-field w-full p-3 mb-4 rounded-lg">
+            <input id="password" type="password" placeholder="Password"
+                class="input-field w-full p-3 mb-6 rounded-lg">
+            <button id="submitLogin"
+                class="btn-primary w-full p-3 rounded-full font-bold transition-all duration-300 transform hover:scale-105">Login</button>
+        </div>
+    </div>
+
+    <!-- Add/Edit Blog Modal (Full-screen editor) -->
+    <div id="addBlogModal" class="modal-overlay hidden">
+        <div class="blog-editor-container neumorphic-card">
+            <h2 id="modalTitle" class="text-3xl font-bold mb-4 gradient-text">Create a New Blog Post</h2>
+            <input type="hidden" id="blogKey">
+            <!-- Three-column grid for editor, preview, and guide -->
+            <div class="grid md:grid-cols-3 gap-8 h-full min-h-[500px]">
+                <!-- Input/Editor Column -->
+                <div class="flex flex-col h-full">
+                    <input id="blogTitle" type="text" placeholder="Blog Title"
+                        class="input-field w-full p-3 rounded-lg text-2xl font-semibold">
+                    <input id="blogAuthor" type="text" placeholder="Author Name"
+                        class="input-field w-full p-3 rounded-lg text-lg">
+                    <input id="blogImage" type="text" placeholder="Image URL (optional)"
+                        class="input-field w-full p-3 rounded-lg text-lg">
+                    <!-- Markdown Editor -->
+                    <textarea id="blogContent" placeholder="Start writing your blog content here..."
+                        class="input-field w-full p-3 rounded-lg text-base flex-grow min-h-[300px]"></textarea>
+                </div>
+                <!-- Live Preview Column -->
+                <div class="flex flex-col h-full">
+                    <h3 class="text-xl font-bold mb-4 gradient-text">Live Preview</h3>
+                    <!-- This div will display the formatted markdown output -->
+                    <div id="previewContent" class="input-field overflow-y-auto"></div>
+                </div>
+                <!-- Markdown Quick Guide Column -->
+                <div class="flex flex-col h-full">
+                    <h3 class="text-xl font-bold mb-4 gradient-text">Markdown Quick Guide</h3>
+                    <div class="input-field overflow-y-auto">
+                        <ul class="list-disc space-y-2 text-sm text-gray-400">
+                            <li><strong>Headings:</strong> Use `#` to `###` for different sizes.</li>
+                            <li class="pl-4">`# My Title`</li>
+                            <li class="pl-4">`## Subheading`</li>
+                            <li><strong>Bold:</strong> Use `**` before and after text.</li>
+                            <li class="pl-4">`**bold text**`</li>
+                            <li><strong>Italic:</strong> Use `*` or `_` before and after text.</li>
+                            <li class="pl-4">`*italic text*`</li>
+                            <li><strong>Blockquote:</strong> Use `>` to quote text.</li>
+                            <li class="pl-4">`> This is a quote`</li>
+                            <li><strong>Lists:</strong> Use `-` or `*` for bullet points.</li>
+                            <li class="pl-4">`- Item 1`</li>
+                            <li class="pl-4">`- Item 2`</li>
+                            <li><strong>Numbered Lists:</strong> Use `1.`, `2.`, etc.</li>
+                            <li class="pl-4">`1. First item`</li>
+                            <li class="pl-4">`2. Second item`</li>
+                            <li><strong>Links:</strong> Use `[text](url)` to create a link.</li>
+                            <li class="pl-4">`[My Site](https://example.com)`</li>
+                            <li><strong>Code:</strong> Use ``` ` ``` for inline code or ``` ``` for blocks.</li>
+                            <li class="pl-4">`const myVar = 1;`</li>
+                            <li class="pl-4">`const myVar = 'Hello, World!';
+console.log(myVar);`</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-4 mt-8">
+                <button id="deleteBlogBtn"
+                    class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full font-bold transition-colors hidden">Delete
+                    Blog</button>
+                <button id="cancelAddBlogBtn"
+                    class="bg-gray-600 hover:bg-gray-500 text-white px-6 py-3 rounded-full font-bold transition-colors">Cancel</button>
+                <button id="addBlogBtn"
+                    class="btn-primary px-6 py-3 rounded-full font-bold transition-colors">Save Blog</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom alert/message box -->
+    <div id="messageBox"
+        class="fixed bottom-8 right-8 bg-gray-800 text-white p-4 rounded-lg shadow-lg hidden transition-opacity duration-300">
+        <p id="messageText"></p>
+    </div>
+
+    <script>
+        // Predefined user
+        const USER_EMAIL = "roshnimishra@gmail.com";
+        const USER_PASS = "roshnimishra001";
+
+        // Elements
+        const loginBtn = document.getElementById("loginBtn");
+        const logoutBtn = document.getElementById("logoutBtn");
+        const addBlogNavBtn = document.getElementById("addBlogNavBtn");
+        const loginModal = document.getElementById("loginModal");
+        const addBlogModal = document.getElementById("addBlogModal");
+        const submitLogin = document.getElementById("submitLogin");
+        const addBlogBtn = document.getElementById("addBlogBtn");
+        const cancelAddBlogBtn = document.getElementById("cancelAddBlogBtn");
+        const deleteBlogBtn = document.getElementById("deleteBlogBtn");
+        const cardsContainer = document.getElementById("cardsContainer");
+        const messageBox = document.getElementById("messageBox");
+        const messageText = document.getElementById("messageText");
+        const modalTitle = document.getElementById("modalTitle");
+        const blogKeyInput = document.getElementById("blogKey");
+
+        // Blog content inputs and preview
+        const blogTitleInput = document.getElementById("blogTitle");
+        const blogAuthorInput = document.getElementById("blogAuthor");
+        const blogImageInput = document.getElementById("blogImage");
+        const blogContentInput = document.getElementById("blogContent");
+        const previewContent = document.getElementById("previewContent");
+
+        // Load blogs from localStorage
+        let blogs = JSON.parse(localStorage.getItem("blogs")) || [
+            {
+                title: "The Future of AI",
+                image: "https://images.unsplash.com/photo-1697577418970-95d99b5a55cf?q=80&w=996&auto=format&fit=crop",
+                desc: "Learn how AI is shaping our world and changing the way we live and work.",
+                key: "ai",
+                content: "## The Rise of Generative AI\n\nGenerative AI, like language models and image generators, is revolutionizing creative industries. It can create new text, images, music, and more, pushing the boundaries of what is possible. It's a fascinating field that is evolving at a rapid pace.\n\n- **Efficiency:** Automating repetitive tasks.\n- **Creativity:** Providing new tools for artists and writers.\n- **Innovation:** Powering new applications and services.\n\nAI is no longer a futuristic concept; it is an integral part of our daily lives."
+            },
+            {
+                title: "React & Frontend Trends",
+                image: "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?q=80&w=1470&auto=format&fit=crop",
+                desc: "Explore modern frontend development practices and tools used in React projects.",
+                key: "react",
+                content: "## The Modern Frontend Stack\n\nThe frontend ecosystem is constantly changing, but some technologies are here to stay. React remains a dominant force, supported by powerful tools like Vite and Tailwind CSS.\n\n- **Vite:** A lightning-fast build tool for modern web projects.\n- **Tailwind CSS:** A utility-first CSS framework for rapid UI development.\n- **State Management:** Libraries like Redux and Zustand continue to be essential for complex applications.\n\nStaying up-to-date with these trends is crucial for any frontend developer."
+            },
+            {
+                title: "Python Programming Tips",
+                image: "https://images.unsplash.com/photo-1660616246653-e2c57d1077b9?q=80&w=1631&auto=format&fit=crop",
+                desc: "Enhance your Python skills with practical tips, tricks, and real-world examples.",
+                key: "python",
+                content: "## Writing Clean Python Code\n\nWriting good code is not just about functionality; it's about readability and maintainability. Python's PEP 8 style guide helps ensure consistency across projects.\n\n**Tip #1: Use List Comprehensions**\nList comprehensions are a concise way to create lists.\n\n```python\n# Bad\nmy_list = []\nfor x in range(10):\n    my_list.append(x * 2)\n\n# Good\nmy_list = [x * 2 for x in range(10)]\n```"
+            }
+        ];
+
+        // Custom message box function
+        function showMessage(message) {
+            messageText.textContent = message;
+            messageBox.classList.remove("hidden");
+            messageBox.style.opacity = 1;
+            setTimeout(() => {
+                messageBox.style.opacity = 0;
+                setTimeout(() => messageBox.classList.add("hidden"), 300);
+            }, 3000);
+        }
+
+        // Renders the blog cards to the main page
+        function renderBlogs() {
+            cardsContainer.innerHTML = "";
+            blogs.forEach(blog => {
+                const card = document.createElement("div");
+                card.className = "neumorphic-card p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300";
+                card.innerHTML = `
+                    <img src="${blog.image}" alt="${blog.title}" class="rounded-xl mb-4 w-full h-48 object-cover transition-transform duration-300 transform hover:scale-105">
+                    <h2 class="text-xl font-bold my-3 gradient-text">${blog.title}</h2>
+                    <p class="text-gray-400 mb-4 line-clamp-3">${blog.desc}</p>
+                    <a href="insight.html?insight=${blog.key}" class="text-blue-400 hover:text-blue-300 font-medium">Read More →</a>
+                    <button class="edit-btn text-blue-400 hover:text-blue-300 font-medium ml-4 hidden" data-key="${blog.key}">Edit</button>
+                `;
+                cardsContainer.appendChild(card);
+            });
+            // Show/hide edit buttons based on login status
+            updateUIForLogin();
+        }
+
+        renderBlogs();
+
+        // Login/Logout state management
+        function setAuthState(loggedIn) {
+            if (loggedIn) {
+                localStorage.setItem("loggedIn", "true");
+                loginBtn.classList.add("hidden");
+                logoutBtn.classList.remove("hidden");
+                addBlogNavBtn.classList.remove("hidden");
+            } else {
+                localStorage.removeItem("loggedIn");
+                loginBtn.classList.remove("hidden");
+                logoutBtn.classList.add("hidden");
+                addBlogNavBtn.classList.add("hidden");
+            }
+            updateUIForLogin();
+        }
+
+        // Hides/shows edit buttons based on login status
+        function updateUIForLogin() {
+            const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+            document.querySelectorAll(".edit-btn").forEach(btn => {
+                if (isLoggedIn) {
+                    btn.classList.remove("hidden");
+                } else {
+                    btn.classList.add("hidden");
+                }
+            });
+        }
+
+        // Checks login status on page load
+        if (localStorage.getItem("loggedIn") === "true") {
+            setAuthState(true);
+        }
+
+        // Opens the Add/Edit blog modal with optional pre-filled content
+        function openAddBlogModal(isNew = true, blogData = {}) {
+            if (isNew) {
+                modalTitle.textContent = "Create a New Blog Post";
+                addBlogBtn.textContent = "Save Blog";
+                blogKeyInput.value = "";
+                // Show the save button and hide the delete button for new blogs
+                addBlogBtn.classList.remove("hidden");
+                deleteBlogBtn.classList.add("hidden");
+                // Pre-fill with a markdown template for demonstration
+                blogContentInput.value = `# My New Blog Post
+
+## A Subheading
+
+Start writing your **blog content** here. You can use markdown to format your text.
+
+- Use a bulleted list.
+- Like this.
+
+1. Or a numbered list.
+2. Like this.
+
+You can also use \`code blocks\` for code snippets.
+
+\`\`\`javascript
+// Example Code
+const myVar = 'Hello, World!';
+console.log(myVar);
+\`\`\`
+`;
+                // Set the default author name for a new post
+                blogAuthorInput.value = 'Roshni Mishra';
+            } else {
+                modalTitle.textContent = "Edit Blog Post";
+                addBlogBtn.textContent = "Update Blog";
+                blogKeyInput.value = blogData.key;
+                blogTitleInput.value = blogData.title;
+                blogAuthorInput.value = blogData.author || "Roshni Mishra"; // Updated to set default on edit too
+                blogImageInput.value = blogData.image || "";
+                blogContentInput.value = blogData.content;
+                // Show both save and delete buttons for existing blogs
+                addBlogBtn.classList.remove("hidden");
+                deleteBlogBtn.classList.remove("hidden");
+            }
+            // Update the live preview immediately
+            updatePreview();
+            addBlogModal.classList.remove("hidden");
+        }
+
+        // Updates the live preview pane with formatted markdown
+        function updatePreview() {
+            const markdownText = blogContentInput.value;
+            previewContent.innerHTML = marked.parse(markdownText);
+        }
+
+        // Event Listeners
+        loginBtn.addEventListener("click", () => loginModal.classList.remove("hidden"));
+        submitLogin.addEventListener("click", () => {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            if (email === USER_EMAIL && password === USER_PASS) {
+                loginModal.classList.add("hidden");
+                setAuthState(true);
+                showMessage("Login successful!");
+            } else {
+                showMessage("Invalid email or password!");
+            }
+        });
+
+        logoutBtn.addEventListener("click", () => {
+            setAuthState(false);
+            showMessage("Logged out successfully!");
+        });
+
+        addBlogNavBtn.addEventListener("click", () => openAddBlogModal(true));
+        cancelAddBlogBtn.addEventListener("click", () => addBlogModal.classList.add("hidden"));
+
+        // Add/Edit blog logic
+        addBlogBtn.addEventListener("click", () => {
+            const title = blogTitleInput.value.trim();
+            const author = blogAuthorInput.value.trim() || "Roshni Mishra"; // Check and set default on save
+            const image = blogImageInput.value.trim();
+            const content = blogContentInput.value.trim();
+            const key = blogKeyInput.value.trim();
+
+            if (title && content) {
+                const desc = content.substring(0, 200).replace(/\n/g, ' ') + '...';
+                const blogImage = image || "https://placehold.co/800x600/1a202c/FFFFFF?text=" + encodeURIComponent(title.split(' ')[0]);
+
+                if (key) {
+                    // Update existing blog
+                    const blogIndex = blogs.findIndex(b => b.key === key);
+                    if (blogIndex !== -1) {
+                        blogs[blogIndex] = { ...blogs[blogIndex], title, author, desc, content, image: blogImage };
+                        showMessage("Blog updated successfully!");
+                    }
+                } else {
+                    // Add new blog
+                    const newBlog = { title, author, desc, key: window.crypto.randomUUID(), content, image: blogImage };
+                    blogs.push(newBlog);
+                    showMessage("Blog added successfully!");
+                }
+
+                localStorage.setItem("blogs", JSON.stringify(blogs));
+                renderBlogs();
+
+                // Clear inputs and hide modal
+                blogTitleInput.value = "";
+                blogAuthorInput.value = "";
+                blogImageInput.value = "";
+                blogContentInput.value = "";
+                addBlogModal.classList.add("hidden");
+            } else {
+                showMessage("Please fill out all required fields!");
+            }
+        });
+
+        // Delete blog logic
+        deleteBlogBtn.addEventListener("click", () => {
+            const keyToDelete = blogKeyInput.value.trim();
+            if (keyToDelete) {
+                const updatedBlogs = blogs.filter(b => b.key !== keyToDelete);
+                blogs = updatedBlogs;
+                localStorage.setItem("blogs", JSON.stringify(blogs));
+                renderBlogs();
+                showMessage("Blog deleted successfully!");
+                addBlogModal.classList.add("hidden");
+            }
+        });
+
+        // Edit button click listener
+        document.addEventListener("click", (e) => {
+            if (e.target.classList.contains("edit-btn")) {
+                const blogKey = e.target.getAttribute("data-key");
+                const blogToEdit = blogs.find(b => b.key === blogKey);
+
+                if (blogToEdit) {
+                    openAddBlogModal(false, blogToEdit);
+                }
+            }
+        });
+
+        // Event listener for live preview
+        blogContentInput.addEventListener("input", updatePreview);
+    </script>
+</body>
+
+</html>
