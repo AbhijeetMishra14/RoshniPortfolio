@@ -405,7 +405,7 @@
                     <a href="#home" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
                         Read My Insights
                     </a>
-                    <a href="#" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
+                   <a href="#" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card" id="download-cv-btn">
                         Download CV
                     </a>
                 </div>
@@ -474,6 +474,7 @@
             const mobileLinks = mobileMenu.querySelectorAll('a');
             const username = 'roshnimishra1591';
             const body = document.body;
+            const downloadCvBtn = document.getElementById('download-cv-btn');
 
             const toggleMobileMenu = () => {
                 mobileMenu.classList.toggle('active');
@@ -743,6 +744,16 @@
                     formMessage.textContent = 'Error sending message. Please try again.';
                     formMessage.classList.add('text-red-500');
                 }
+                
+            });
+            downloadCvBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const a = document.createElement('a');
+                a.href = '#'; 
+                a.download = 'cvRoshni.pdf'; 
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
             });
         });
     </script>
