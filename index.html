@@ -1,29 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-<!-- Add this in the <head> section -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Updated title -->
     <title>Roshni Mishra | Crafting Code & Creative Solutions</title>
-    <meta name="description"
-        content="Roshni Mishra - Full-Stack Developer | Python & MERN Stack | C# Developer. Turning ideas into code with innovative software solutions.">
-
+    <meta name="description" content="Roshni Mishra - Full-Stack Developer | Python & MERN Stack | C# Developer. Turning ideas into code with innovative software solutions.">
     <link rel="icon" type="image/png" href="R.png">
-
-    <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Google Fonts for Inter -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -31,20 +19,19 @@
             overflow-x: hidden;
             position: relative;
             /* Dark theme variables (default) */
-            --color-bg-primary: #1a202c;
-            --color-bg-secondary: #2d3748;
-            --color-card-shadow-dark: #121820;
-            --color-card-shadow-light: #22283a;
-            --color-text-primary: #cbd5e0;
-            --color-text-secondary: #a6e22e;
-            --color-pulse: #a6e22e;
-            --color-canvas-particle: #66d9ef;
-            --color-canvas-line: rgba(102, 217, 239, 1);
+            --color-bg-primary: #121212;
+            --color-bg-secondary: #1e1e1e;
+            --color-card-shadow-dark: #0a0a0a;
+            --color-card-shadow-light: #282828;
+            --color-text-primary: #e0e0e0;
+            --color-text-secondary: #62c3e5; /* A more vibrant blue */
+            --color-pulse: #62c3e5;
+            --color-canvas-particle: #62c3e5;
+            --color-canvas-line: rgba(98, 195, 229, 1);
             background-color: var(--color-bg-primary);
             color: var(--color-text-primary);
         }
 
-        /* Light theme */
         body.theme-light {
             --color-bg-primary: #f0f4f8;
             --color-bg-secondary: #e2e8f0;
@@ -59,7 +46,6 @@
             color: var(--color-text-primary);
         }
 
-        /* Canvas Background */
         #background-canvas {
             position: fixed;
             top: 0;
@@ -67,17 +53,12 @@
             width: 100vw;
             height: 100vh;
             z-index: -1;
-            background: radial-gradient(circle, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+            background: var(--color-bg-primary);
             transition: background 0.5s ease-in-out;
         }
 
-        body.theme-light #background-canvas {
-            background: radial-gradient(circle, #e2e8f0 0%, #f0f4f8 100%);
-        }
-
-        /* Gradient and Neumorphic Styles */
         .gradient-text {
-            background-image: linear-gradient(to right, #66d9ef, var(--color-text-secondary));
+            background-image: linear-gradient(to right, #62c3e5, #4a90e2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -86,10 +67,9 @@
         }
 
         body.theme-light .gradient-text {
-            background-image: linear-gradient(to right, #2c3e50, var(--color-text-secondary));
+            background-image: linear-gradient(to right, #4a5568, #2c3e50);
         }
 
-        /* Highlight text with the secondary color */
         .highlight {
             color: var(--color-text-secondary);
             font-weight: bold;
@@ -111,20 +91,11 @@
         }
 
         @keyframes pulse-border {
-            0% {
-                box-shadow: 0 0 0 0 var(--color-pulse);
-            }
-
-            70% {
-                box-shadow: 0 0 0 10px rgba(166, 226, 46, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(166, 226, 46, 0);
-            }
+            0% { box-shadow: 0 0 0 0 var(--color-pulse); }
+            70% { box-shadow: 0 0 0 10px rgba(98, 195, 229, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(98, 195, 229, 0); }
         }
 
-        /* Mobile menu specific styles */
         #mobile-menu {
             height: 50vh;
             width: 100vw;
@@ -139,7 +110,6 @@
             opacity: 1;
         }
 
-        /* Staggered animation for menu links */
         #mobile-menu a {
             transform: translateY(20px);
             opacity: 0;
@@ -150,107 +120,51 @@
             transform: translateY(0);
             opacity: 1;
         }
-
-        #mobile-menu.active a:nth-child(1) {
-            transition-delay: 0.1s;
-        }
-
-        #mobile-menu.active a:nth-child(2) {
-            transition-delay: 0.2s;
-        }
-
-        #mobile-menu.active a:nth-child(3) {
-            transition-delay: 0.3s;
-        }
-
-        #mobile-menu.active a:nth-child(4) {
-            transition-delay: 0.4s;
-        }
-
-        #mobile-menu.active a:nth-child(5) {
-            transition-delay: 0.5s;
-        }
-
-        #mobile-menu.active a:nth-child(6) {
-            transition-delay: 0.6s;
-        }
     </style>
 </head>
 
 <body class="antialiased min-h-screen flex flex-col items-center">
 
-    <!-- Interactive Canvas Background -->
     <canvas id="background-canvas"></canvas>
 
-    <!-- Scroll Progress Bar -->
-    <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-pink-500 to-purple-500 z-50"
-        style="width: 0;"></div>
+    <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 z-50" style="width: 0;"></div>
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 w-full bg-opacity-80 backdrop-filter backdrop-blur-lg z-40 shadow-lg"
-        style="background-color: var(--color-bg-primary); margin-top: 4px;">
+    <nav class="fixed top-0 w-full bg-opacity-80 backdrop-filter backdrop-blur-lg z-40 shadow-lg" style="background-color: var(--color-bg-primary); margin-top: 4px;">
         <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
-            <!-- Logo/Name -->
             <a href="#" class="text-xl font-bold gradient-text">Roshni</a>
-            <!-- Desktop Nav Links -->
             <div class="hidden md:flex space-x-6">
-                <a id="nav-home" href="#"
-                    class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Home</a>
-                <a id="nav-about" href="#about"
-                    class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">About</a>
-                <a id="nav-skills" href="#skills"
-                    class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Skills</a>
-                <a id="nav-projects" href="#projects"
-                    class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Projects</a>
-                <a id="nav-contact" href="#contact"
-                    class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Contact</a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Home</a>
+                <a href="#about" class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">About</a>
+                <a href="#skills" class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Skills</a>
+                <a href="#projects" class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Projects</a>
+                <a href="#contact" class="text-gray-400 hover:text-white transition-colors duration-300 font-medium">Contact</a>
             </div>
+            <button id="hamburger-btn" class="md:hidden p-2 rounded-md focus:outline-none" style="background-color: var(--color-bg-secondary);">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="color: var(--color-text-primary);">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
         </div>
     </nav>
-    <!-- Mobile Menu Button -->
-    <button id="hamburger-btn" class="md:hidden p-2 rounded-md focus:outline-none"
-        style="background-color: var(--color-bg-secondary);">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-            style="color: var(--color-text-primary);">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
-            </path>
-        </svg>
-    </button>
-    </nav>
 
-    <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu"
-        class="fixed top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-gray-900 bg-opacity-95 z-40 transform -translate-y-full opacity-0 transition-all duration-500">
-
-        <!-- Menu Links -->
+    <div id="mobile-menu" class="fixed top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-gray-900 bg-opacity-95 z-40 transform -translate-y-full opacity-0 transition-all duration-500">
         <div class="flex flex-col space-y-8 text-2xl font-bold text-center">
-            <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"
-                onclick="hideMobileMenu()">Home</a>
-            <a href="#about" class="text-gray-400 hover:text-white transition-colors duration-300"
-                onclick="hideMobileMenu()">About</a>
-            <a href="#skills" class="text-gray-400 hover:text-white transition-colors duration-300"
-                onclick="hideMobileMenu()">Skills</a>
-            <a href="#projects" class="text-gray-400 hover:text-white transition-colors duration-300"
-                onclick="hideMobileMenu()">Projects</a>
-            <a href="#contact" class="text-gray-400 hover:text-white transition-colors duration-300"
-                onclick="hideMobileMenu()">Contact</a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300" onclick="hideMobileMenu()">Home</a>
+            <a href="#about" class="text-gray-400 hover:text-white transition-colors duration-300" onclick="hideMobileMenu()">About</a>
+            <a href="#skills" class="text-gray-400 hover:text-white transition-colors duration-300" onclick="hideMobileMenu()">Skills</a>
+            <a href="#projects" class="text-gray-400 hover:text-white transition-colors duration-300" onclick="hideMobileMenu()">Projects</a>
+            <a href="#contact" class="text-gray-400 hover:text-white transition-colors duration-300" onclick="hideMobileMenu()">Contact</a>
         </div>
     </div>
 
-    <!-- Main Container -->
     <div class="max-w-4xl w-full mx-auto pt-24 px-4 md:px-8">
 
-        <!-- Header/home Section -->
         <header id="home" class="text-center mb-16">
-            <div
-                class="relative w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden border-4 border-transparent pulse-animation">
-                <!-- Profile Image -->
+            <div class="relative w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden border-4 border-transparent pulse-animation">
                 <img id="profile-img" src="pp1.jpg" alt="Roshni Mishra" class="w-full h-full object-cover">
             </div>
-            <h1 class="text-5xl font-extrabold tracking-tight mb-2" style="color: var(--color-text-primary);">Roshni
-                Mishra</h1>
-            <p class="text-xl font-semibold gradient-text mb-4">Full-Stack Developer | Python & MERN Stack | C#
-                Developer</p>
+            <h1 class="text-5xl font-extrabold tracking-tight mb-2" style="color: var(--color-text-primary);">Roshni Mishra</h1>
+            <p class="text-xl font-semibold gradient-text mb-4">Full-Stack Developer | Python & MERN Stack | C# Developer</p>
             <p class="text-lg font-mono" style="color: var(--color-text-primary); opacity: 0.8;">
                 <span class="highlight">// Turning ideas into code</span><br>
                 if (problem.exists()) {<br>
@@ -262,9 +176,6 @@
             </p>
         </header>
 
-
-
-        <!-- About Me Section -->
         <section id="about" class="mb-16">
             <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--color-text-primary);">About Me</h2>
             <div class="neumorphic-card p-8 rounded-2xl">
@@ -289,18 +200,15 @@
         <section id="qualification" class="mb-16">
             <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--color-text-primary);">Qualification</h2>
             <div class="neumorphic-card p-8 rounded-2xl space-y-6">
-                <!-- 10th Grade -->
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center">
                     <div>
                         <p class="font-bold text-lg" style="color: var(--color-text-primary);">10th Grade</p>
-                        <p style="color: var(--color-text-primary); opacity: 0.8;">Little Flower Secondary School,
-                            Rajbiraj</p>
+                        <p style="color: var(--color-text-primary); opacity: 0.8;">Little Flower Secondary School, Rajbiraj</p>
                     </div>
                     <div>
                         <p class="font-semibold text-gray-700">GPA: 3.9</p>
                     </div>
                 </div>
-                <!-- +2 -->
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center">
                     <div>
                         <p class="font-bold text-lg" style="color: var(--color-text-primary);">+2</p>
@@ -310,13 +218,10 @@
                         <p class="font-semibold text-gray-700">GPA: 3.5</p>
                     </div>
                 </div>
-                <!-- Bachelor's -->
                 <div class="flex flex-col md:flex-row md:justify-between md:items-center">
                     <div>
-                        <p class="font-bold text-lg" style="color: var(--color-text-primary);">IT Engineering (4rd Year)
-                        </p>
-                        <p style="color: var(--color-text-primary); opacity: 0.8;">Nepal College of Information
-                            Technology, Lalitpur</p>
+                        <p class="font-bold text-lg" style="color: var(--color-text-primary);">IT Engineering (4rd Year)</p>
+                        <p style="color: var(--color-text-primary); opacity: 0.8;">Nepal College of Information Technology, Lalitpur</p>
                     </div>
                     <div>
                         <p class="font-semibold text-gray-700">Ongoing</p>
@@ -325,15 +230,12 @@
             </div>
         </section>
 
-
-        <!-- Skills Section -->
         <section id="skills" class="mb-16">
             <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--color-text-primary);">Skills</h2>
             <div class="neumorphic-card p-8 rounded-2xl space-y-8">
                 <div>
                     <h3 class="text-2xl font-semibold gradient-text mb-4">Technical Skill-set</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8">
-
                         <div>
                             <h4 class="text-xl font-medium highlight mb-2">Programming & Development</h4>
                             <div class="flex flex-wrap gap-2">
@@ -346,7 +248,6 @@
                                 <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Express.js</span>
                                 <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">MongoDB</span>
                                 <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Django</span>
-
                             </div>
                         </div>
 
@@ -359,7 +260,6 @@
                                 <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Bootstrap</span>
                                 <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">REST APIs</span>
                                 <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">jQuery</span>
-
                             </div>
                         </div>
 
@@ -386,8 +286,7 @@
                         <div>
                             <h4 class="text-xl font-medium highlight mb-2">Other Skills</h4>
                             <div class="flex flex-wrap gap-2">
-                                <span
-                                    class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Problem-Solving</span>
+                                <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Problem-Solving</span>
                                 <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Teamwork</span>
                                 <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Communication</span>
                                 <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Adaptability</span>
@@ -401,51 +300,34 @@
         </section>
 
         <section id="learning" class="mb-16">
-            <h2 class="text-3xl font-bold mb-4 text-center" style="color: var(--color-text-primary);">Courses & Learning
-            </h2>
+            <h2 class="text-3xl font-bold mb-4 text-center" style="color: var(--color-text-primary);">Courses & Learning</h2>
             <p class="text-center mb-8" style="color: var(--color-text-primary); opacity: 0.8;">
                 Main technologies and frameworks I have learned through online courses and practical projects.
             </p>
             <div class="flex flex-wrap justify-center">
-                <!-- React JS / MERN -->
-                <a href="https://www.youtube.com/watch?v=E6tAtRi82QY&t=575s"
-                    class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3"
-                    target="_blank">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
-                        alt="React Logo" class="w-10 h-10">
+                <a href="https://www.youtube.com/watch?v=E6tAtRi82QY&t=575s" class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3" target="_blank">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React Logo" class="w-10 h-10">
                     <div>
                         <h3 class="text-lg font-semibold mb-1">React JS / MERN</h3>
                         <p class="text-sm">Learned from Sheriyans Coding School</p>
                     </div>
                 </a>
-                <!-- Backend / Node.js -->
-                <a href="https://www.youtube.com/playlist?list=PLbtI3_MArDOkXRLxdMt1NOMtCS-84ibHH"
-                    class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3"
-                    target="_blank">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
-                        alt="Node.js Logo" class="w-10 h-10">
+                <a href="https://www.youtube.com/playlist?list=PLbtI3_MArDOkXRLxdMt1NOMtCS-84ibHH" class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3" target="_blank">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js Logo" class="w-10 h-10">
                     <div>
                         <h3 class="text-lg font-semibold mb-1">Backend Development</h3>
                         <p class="text-sm">Learned from YouTube Sheriyans Coding School</p>
                     </div>
                 </a>
-                <!-- HTML/CSS/JS -->
-                <a href="https://www.youtube.com/watch?v=HcOc7P5BMi4"
-                    class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3"
-                    target="_blank">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
-                        alt="HTML Logo" class="w-10 h-10">
+                <a href="https://www.youtube.com/watch?v=HcOc7P5BMi4" class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3" target="_blank">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML Logo" class="w-10 h-10">
                     <div>
                         <h3 class="text-lg font-semibold mb-1">HTML, CSS & JavaScript</h3>
                         <p class="text-sm">Learned from Apna College</p>
                     </div>
                 </a>
-                <!-- Python -->
-                <a href="https://www.youtube.com/watch?v=UrsmFxEIp5k"
-                    class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3"
-                    target="_blank">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
-                        alt="Python Logo" class="w-10 h-10">
+                <a href="https://www.youtube.com/watch?v=UrsmFxEIp5k" class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3" target="_blank">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python Logo" class="w-10 h-10">
                     <div>
                         <h3 class="text-lg font-semibold mb-1">Python Programming</h3>
                         <p class="text-sm">Learned from Code with Harry</p>
@@ -454,123 +336,125 @@
             </div>
         </section>
 
-
-
-
-
-
-        <!-- Projects Section -->
         <section id="projects" class="mb-16">
             <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--color-text-primary);">Projects</h2>
             <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Project cards will be injected here by JavaScript -->
-                <!-- Nivaashub Project Card -->
                 <div class="neumorphic-card rounded-2xl p-6">
                     <div class="flex space-x-4">
-                        <a href="https://github.com/roshnimishra1591/nivaashub" target="_blank"
-                            class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-full transition-colors duration-300">
+                        <a href="https://github.com/roshnimishra1591/nivaashub" target="_blank" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-full transition-colors duration-300">
                             GitHub
                         </a>
-                        <!-- If a live demo exists, you can add it here -->
                     </div>
                 </div>
                 <div class="text-center" style="color: var(--color-text-primary); opacity: 0.8;">
                     <p>Loading other projects from GitHub...</p>
                 </div>
-
             </div>
             <div id="show-more-container" class="mt-8 text-center hidden">
-                <button id="show-more-btn"
-                    class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
+                <button id="show-more-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
                     Show More Projects
                 </button>
             </div>
         </section>
 
-        <!-- Contact Section -->
         <section id="contact" class="mb-16 text-center">
             <h2 class="text-3xl font-bold mb-8" style="color: var(--color-text-primary);">Let's Connect</h2>
             <div class="neumorphic-card p-8 rounded-2xl">
                 <p style="color: var(--color-text-primary); opacity: 0.8;" class="leading-relaxed mb-8">
-                    I believe that technology is most powerful when it solves real-world problems and inspires others. I
-                    am passionate about software development, learning new skills, and turning ideas into impactful
-                    solutions. Let's collaborate, innovate, and create something amazing together.
+                    I believe that technology is most powerful when it solves real-world problems and inspires others. I am passionate about software development, learning new skills, and turning ideas into impactful solutions. Let's collaborate, innovate, and create something amazing together.
                 </p>
 
-                <!-- Contact Info -->
-                <div
-                    class="flex flex-col md:flex-row justify-center items-center md:space-x-12 space-y-4 md:space-y-0 mb-8">
-                    <p>📞 Phone: <a href="tel:+9779816746292" class="gradient-text font-semibold hover:underline">+977
-                            9816746292</a></p>
-                    <p>📧 Email: <a href="mailto:roshnimishra1591@gmail.com"
-                            class="gradient-text font-semibold hover:underline">roshnimishra1591@gmail.com</a></p>
-                </div>
 
-                <!-- Social Icons -->
                 <div class="flex justify-center items-center space-x-6 mb-8">
-                    <a href="https://www.instagram.com/roshnimishra6078" target="_blank"
-                        class="text-gray-700 hover:text-pink-500 text-3xl transition-colors duration-300">
+                    <a href="https://www.instagram.com/roshnimishra6078" target="_blank" class="text-gray-700 hover:text-pink-500 text-3xl transition-colors duration-300">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="https://github.com/roshnimishra1591" target="_blank"
-                        class="text-gray-700 hover:text-black text-3xl transition-colors duration-300">
+                    <a href="https://github.com/roshnimishra1591" target="_blank" class="text-gray-700 hover:text-black text-3xl transition-colors duration-300">
                         <i class="fab fa-github"></i>
                     </a>
-                    <a href="https://www.facebook.com/roshni.mishra.950910" target="_blank"
-                        class="text-gray-700 hover:text-blue-600 text-3xl transition-colors duration-300">
+                    <a href="https://www.facebook.com/roshni.mishra.950910" target="_blank" class="text-gray-700 hover:text-blue-600 text-3xl transition-colors duration-300">
                         <i class="fab fa-facebook"></i>
                     </a>
-                    <a href="https://www.linkedin.com/in/iroshnimishra/" target="_blank"
-                        class="text-gray-700 hover:text-blue-500 text-3xl transition-colors duration-300">
+                    <a href="https://www.linkedin.com/in/iroshnimishra/" target="_blank" class="text-gray-700 hover:text-blue-500 text-3xl transition-colors duration-300">
                         <i class="fab fa-linkedin"></i>
                     </a>
                 </div>
+                
+                <div class="text-center space-y-2 mb-8">
+                    <p class="flex items-center justify-center space-x-2 ">
+                        <i class="fas fa-envelope highlight"></i>
+                        <a href="mailto:roshnimishra1591@gmail.com" class="text-sm highlight hover:underline transition-all duration-300">roshnimishra1591@gmail.com</a>
+                    </p>
+                    <p class="flex items-center justify-center space-x-2">
+                        <i class="fas fa-phone highlight"></i>
+                        <a href="tel:+9779824685157" class="text-sm highlight hover:underline transition-all duration-300">+977-9824685157</a>
+                    </p>
+                </div>
 
-                <!-- Action Buttons -->
                 <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-6">
-                    <a href="mailto:roshnimishra1591@gmail.com"
-                        class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
+                    <a href="mailto:roshnimishra1591@gmail.com" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
                         Get In Touch
                     </a>
 
-                    <a href="#"
-                        class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
+                    <a href="#home" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
                         Read My Insights
                     </a>
-                    <a href="#"
-                        class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
+                    <a href="#" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
                         Download CV
                     </a>
                 </div>
             </div>
         </section>
 
+        <section id="contact" class="mb-16 text-center">
+            <h2 class="text-3xl font-bold mb-8" style="color: var(--color-text-primary);"> Mail me</h2>
+            <div class="neumorphic-card p-8 rounded-2xl">
 
+                <form id="contact-form" class="space-y-4 text-left mb-8">
+                    <div>
+                            <label for="name" class="block text-sm font-medium mb-1" style="color: var(--color-text-primary); opacity: 0.8;">Name</label>
+                            <input type="text" id="name" name="from_name" required class="neumorphic-input bg-black w-full px-4 py-2 rounded-lg" placeholder="Your Name">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-1" style="color: var(--color-text-primary); opacity: 0.8;">Email</label>
+                            <input type="email" id="email" name="from_email" required class="neumorphic-input bg-black w-full px-4 py-2 rounded-lg" placeholder="Your Email">
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-sm font-medium mb-1" style="color: var(--color-text-primary); opacity: 0.8;">Subject</label>
+                            <input type="text" id="subject" name="subject" required class="neumorphic-input bg-black w-full px-4 py-2 rounded-lg" placeholder="Message Subject">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium mb-1" style="color: var(--color-text-primary); opacity: 0.8;">Message</label>
+                            <textarea id="message" name="message" rows="4" required class="neumorphic-input bg-black w-full px-4 py-2 rounded-lg" placeholder="Your message..."></textarea>
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
+                                Send Message
+                            </button>
+                        </div>
+                        <div id="form-message" class="text-center mt-4 text-sm" style="color: var(--color-text-primary);"></div>
+                    </form>
 
-        <!-- Footer -->
+                
+                
+               
+
+            
+            </div>
+        </section>
+
         <footer style="color: var(--color-text-primary); opacity: 0.5;" class="text-center text-sm mt-8 pb-4">
-            <p>Designed & Built by Roshni Mishra (v2.0)</p>
+            <p>Designed & Built by Roshni Mishra (v1.0)</p>
         </footer>
 
     </div>
 
-    <!-- Theme Toggle Button -->
-    <button id="theme-toggle"
-        class="fixed bottom-4 left-4 z-50 p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none"
-        style="background-color: var(--color-bg-secondary);">
-        <!-- Moon SVG -->
-        <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 text-yellow-300 transition-colors duration-300" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+    <button id="theme-toggle" class="fixed bottom-4 left-4 z-50 p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none" style="background-color: var(--color-bg-secondary);">
+        <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-300 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
         </svg>
-        <!-- Sun SVG (hidden by default) -->
-        <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 text-orange-400 transition-colors duration-300 hidden" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-400 transition-colors duration-300 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
     </button>
 
@@ -586,15 +470,12 @@
             const username = 'roshnimishra1591';
             const body = document.body;
 
-            // Function to toggle the mobile menu
             const toggleMobileMenu = () => {
                 mobileMenu.classList.toggle('active');
             };
 
-            // Event listener for hamburger button
             hamburgerBtn.addEventListener('click', toggleMobileMenu);
 
-            // Close mobile menu when a link is clicked
             mobileLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     mobileMenu.classList.remove('active');
@@ -608,10 +489,9 @@
                 document.getElementById("progress-bar").style.width = scrollPercent + "%";
             });
 
-            // Function to update content based on the current theme
             function updateContentTheme(isLightTheme) {
-                const projectImgBg = isLightTheme ? 'e2e8f0' : '1a202c';
-                const projectImgColor = isLightTheme ? '1a202c' : 'FFFFFF';
+                const projectImgBg = isLightTheme ? 'e2e8f0' : '121212';
+                const projectImgColor = isLightTheme ? '121212' : 'FFFFFF';
                 const projectImages = projectsContainer.querySelectorAll('img');
                 projectImages.forEach(img => {
                     if (img.alt !== "Nivaashub Project") {
@@ -647,24 +527,24 @@
                         projects.forEach(repo => {
                             const description = repo.description || 'No description provided.';
                             const projectCard = `
-                        <div class="neumorphic-card rounded-2xl p-6">
-                            <img src="https://placehold.co/800x600/1a202c/FFFFFF?text=${repo.name}" alt="${repo.name} Project"
-                                class="rounded-xl mb-4 w-full h-auto">
-                            <h3 class="text-xl font-semibold mb-2 gradient-text">${repo.name.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</h3>
-                            <p class="mb-4">${description}</p>
-                            <div class="flex space-x-4">
-                                <a href="${repo.html_url}" target="_blank"
-                                    class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-full transition-colors duration-300">
-                                    GitHub
-                                </a>
-                                ${repo.homepage ? `
-                                <a href="${repo.homepage}" target="_blank"
-                                    class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-full transition-colors duration-300">
-                                    Live Demo
-                                </a>` : ''}
-                            </div>
-                        </div>
-                    `;
+                                <div class="neumorphic-card rounded-2xl p-6">
+                                    <img src="https://placehold.co/800x600/121212/FFFFFF?text=${repo.name}" alt="${repo.name} Project"
+                                        class="rounded-xl mb-4 w-full h-auto">
+                                    <h3 class="text-xl font-semibold mb-2 gradient-text">${repo.name.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</h3>
+                                    <p class="mb-4">${description}</p>
+                                    <div class="flex space-x-4">
+                                        <a href="${repo.html_url}" target="_blank"
+                                            class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-full transition-colors duration-300">
+                                            GitHub
+                                        </a>
+                                        ${repo.homepage ? `
+                                        <a href="${repo.homepage}" target="_blank"
+                                            class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-full transition-colors duration-300">
+                                            Live Demo
+                                        </a>` : ''}
+                                    </div>
+                                </div>
+                            `;
                             projectsContainer.innerHTML += projectCard;
                         });
                         updateContentTheme(document.body.classList.contains('theme-light'));
@@ -699,7 +579,6 @@
 
             fetchProjects();
 
-            // Theme toggle logic
             themeToggleBtn.addEventListener('click', () => {
                 body.classList.toggle('theme-light');
                 const isLightTheme = body.classList.contains('theme-light');
@@ -708,7 +587,6 @@
                 updateContentTheme(isLightTheme);
             });
 
-            // Canvas animation logic (kept as-is from your script)
             const canvas = document.getElementById('background-canvas');
             const ctx = canvas.getContext('2d');
             let mouseX = null;
@@ -718,6 +596,7 @@
             function resizeCanvas() {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
+                initParticles();
             }
             resizeCanvas();
             window.addEventListener('resize', resizeCanvas);
@@ -737,26 +616,24 @@
                     particles.push(new Particle());
                 }
             }
-            initParticles();
 
             function animate() {
                 const isLightTheme = body.classList.contains('theme-light');
-                const particleColor = isLightTheme ? '#2c3e50' : '#66d9ef';
-                const lineColor = isLightTheme ? 'rgba(74, 85, 104, ' : 'rgba(102, 217, 239, ';
-                const mouseLineColor = isLightTheme ? 'rgba(74, 85, 104, ' : 'rgba(166, 226, 46, ';
+                const particleColor = isLightTheme ? '#4a5568' : '#62c3e5';
+                const lineColor = isLightTheme ? 'rgba(74, 85, 104, ' : 'rgba(98, 195, 229, ';
+                const mouseLineColor = isLightTheme ? 'rgba(74, 85, 104, ' : 'rgba(98, 195, 229, ';
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = particleColor;
 
                 for (let i = 0; i < particles.length; i++) {
                     const p1 = particles[i];
-
                     p1.x += p1.vx;
                     p1.y += p1.vy;
                     if (p1.x + p1.size > canvas.width || p1.x - p1.size < 0) p1.vx *= -1;
                     if (p1.y + p1.size > canvas.height || p1.y - p1.size < 0) p1.vy *= -1;
 
                     ctx.beginPath();
-                    ctx.fillStyle = particleColor;
                     ctx.arc(p1.x, p1.y, p1.size, 0, Math.PI * 2);
                     ctx.fill();
 
@@ -828,9 +705,30 @@
             }, observerOptions);
 
             sections.forEach(section => observer.observe(section));
+
+            (function() {
+                emailjs.init("b4ymY_3OiYEjS0RZ-");
+            })();
+
+            document.getElementById('contact-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const formMessage = document.getElementById('form-message');
+                formMessage.textContent = "Sending message...";
+                formMessage.style.color = "var(--color-text-primary)";
+
+                emailjs.sendForm('service_poy1bw7', 'template_nd7rcen', this)
+                    .then(() => {
+                        formMessage.textContent = "Message sent successfully!";
+                        formMessage.style.color = "var(--color-text-secondary)";
+                        this.reset();
+                    }, (error) => {
+                        console.error('FAILED...', error);
+                        formMessage.textContent = "Failed to send message. Please try again later.";
+                        formMessage.style.color = "#ef4444";
+                    });
+            });
         });
     </script>
-
 </body>
-
 </html>
