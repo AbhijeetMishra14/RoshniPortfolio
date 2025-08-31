@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roshni Mishra | Crafting Code & Creative Solutions</title>
     <meta name="description" content="Roshni Mishra - Full-Stack Developer | Python & MERN Stack | C# Developer. Turning ideas into code with innovative software solutions.">
+    <!-- Check if this file exists in the same directory -->
     <link rel="icon" type="image/png" href="R.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -31,16 +34,17 @@
             color: var(--color-text-primary);
         }
 
+        /* Updated light theme for a white/blue color scheme */
         body.theme-light {
-            --color-bg-primary: #f0f4f8;
-            --color-bg-secondary: #e2e8f0;
-            --color-card-shadow-dark: #d2d6db;
+            --color-bg-primary: #ffffff;
+            --color-bg-secondary: #f0f4f8;
+            --color-card-shadow-dark: #d8d8d8;
             --color-card-shadow-light: #ffffff;
             --color-text-primary: #2d3748;
-            --color-text-secondary: #4a5568;
-            --color-pulse: #4a5568;
-            --color-canvas-particle: #4a5568;
-            --color-canvas-line: rgba(74, 85, 104, 1);
+            --color-text-secondary: #4a90e2; /* A modern blue */
+            --color-pulse: #4a90e2;
+            --color-canvas-particle: #4a90e2;
+            --color-canvas-line: rgba(74, 144, 226, 1);
             background-color: var(--color-bg-primary);
             color: var(--color-text-primary);
         }
@@ -55,7 +59,7 @@
         }
 
         body.theme-light .gradient-text {
-            background-image: linear-gradient(to right, #4a5568, #2c3e50);
+            background-image: linear-gradient(to right, #4a90e2, #2c3e50);
         }
 
         .highlight {
@@ -67,10 +71,36 @@
             background-color: var(--color-bg-primary);
             box-shadow: 8px 8px 16px var(--color-card-shadow-dark), -8px -8px 16px var(--color-card-shadow-light);
             transition: all 0.5s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* New: Dynamic Glow Effect on Hover */
+        .neumorphic-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(98, 195, 229, 0.2) 0%, transparent 70%);
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            z-index: -1;
+        }
+        
+        body.theme-light .neumorphic-card::before {
+            background: radial-gradient(circle, rgba(74, 144, 226, 0.2) 0%, transparent 70%);
+        }
+
+        .neumorphic-card:hover::before {
+            transform: translate(var(--x, -50%), var(--y, -50%)) scale(1);
+            opacity: 1;
         }
 
         .neumorphic-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.02);
             box-shadow: 12px 12px 24px var(--color-card-shadow-dark), -12px -12px 24px var(--color-card-shadow-light);
         }
 
@@ -81,6 +111,8 @@
             border: none;
             outline: none;
             transition: all 0.3s ease-in-out;
+            position: relative;
+            z-index: 10;
         }
 
         .neumorphic-input:focus {
@@ -95,6 +127,25 @@
             0% { box-shadow: 0 0 0 0 var(--color-pulse); }
             70% { box-shadow: 0 0 0 10px rgba(98, 195, 229, 0); }
             100% { box-shadow: 0 0 0 0 rgba(98, 195, 229, 0); }
+        }
+        
+        body.theme-light @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 var(--color-pulse); }
+            70% { box-shadow: 0 0 0 10px rgba(74, 144, 226, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(74, 144, 226, 0); }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spinner {
+            animation: spin 1s linear infinite;
         }
 
         #mobile-menu {
@@ -130,6 +181,169 @@
             height: 100%;
             z-index: -10;
         }
+
+        /* Existing Animation Styles */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Wings Animation Styles */
+        .wings-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .wing {
+            position: absolute;
+            width: 100px;
+            height: 40px;
+            background: rgba(98, 195, 229, 0.2);
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+            top: 50%;
+            z-index: -1;
+            transition: transform 0.6s ease-in-out;
+            transform-origin: center bottom;
+        }
+        
+        body.theme-light .wing {
+            background: rgba(74, 144, 226, 0.2);
+        }
+
+        .wing-left {
+            left: -80px;
+            transform: rotate(-30deg) scaleX(1.2);
+            animation: wingFlapLeft 1.5s ease-in-out infinite alternate;
+        }
+        .wing-right {
+            right: -80px;
+            transform: rotate(30deg) scaleX(1.2);
+            animation: wingFlapRight 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes wingFlapLeft {
+            0% { transform: rotate(-35deg) translateY(-5px); }
+            100% { transform: rotate(-25deg) translateY(5px); }
+        }
+        @keyframes wingFlapRight {
+            0% { transform: rotate(35deg) translateY(-5px); }
+            100% { transform: rotate(25deg) translateY(5px); }
+        }
+
+        /* Typewriter Effect for Heading */
+        .typewriter h1 {
+            overflow: hidden;
+            border-right: .15em solid orange;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+
+        .typewriter h2 {
+            opacity: 0;
+            animation: fadeInText 1s forwards;
+            animation-delay: 3.5s;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--color-text-secondary); }
+        }
+        
+        @keyframes fadeInText {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Staggered Fade-in for list items */
+        .staggered-list-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .staggered-list-item.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* New: Refined Pulse animation for the Get In Touch button */
+        .cta-pulse {
+            animation: button-pulse 1.5s infinite;
+        }
+        @keyframes button-pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(98, 195, 229, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(98, 195, 229, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(98, 195, 229, 0);
+            }
+        }
+        
+        body.theme-light .cta-pulse {
+            animation: button-pulse-light 1.5s infinite;
+        }
+
+        @keyframes button-pulse-light {
+             0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(74, 144, 226, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(74, 144, 226, 0);
+            }
+        }
+
+        /* New: Scroll to Top Button */
+        #scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--color-bg-secondary);
+            color: var(--color-text-primary);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            z-index: 50;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        #scroll-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
     </style>
 </head>
 
@@ -169,13 +383,21 @@
 
     <div class="max-w-4xl w-full mx-auto px-4 md:px-8">
 
-        <header id="home" class="text-center mb-16 pt-24">
+        <header id="home" class="text-center mb-16 pt-24 transition-transform duration-100 ease-out" style="transform-style: preserve-3d;">
             <div class="relative w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden border-4 border-transparent pulse-animation">
-                <img id="profile-img" src="pp1.jpg" alt="Roshni Mishra" class="w-full h-full object-cover">
+                <!-- Wings animation -->
+                <div class="wings-container">
+                    <div class="wing wing-left"></div>
+                    <div class="wing wing-right"></div>
+                    <!-- This image must be in the same folder as this HTML file -->
+                    <img id="profile-img" src="pp1.jpg" alt="Roshni Mishra" class="w-full h-full object-cover rounded-full relative z-10">
+                </div>
             </div>
-            <h1 class="text-5xl font-extrabold tracking-tight mb-2" style="color: var(--color-text-primary);">Roshni Mishra</h1>
+            <div class="typewriter">
+                <h1 class="text-5xl font-extrabold tracking-tight mb-2" style="color: var(--color-text-primary);">Roshni Mishra</h1>
+            </div>
             <p class="text-xl font-semibold gradient-text mb-4">Full-Stack Developer | Python & MERN Stack | C# Developer</p>
-            <p class="text-lg font-mono" style="color: var(--color-text-primary); opacity: 0.8;">
+            <p class="text-lg font-mono animate-on-scroll" style="color: var(--color-text-primary); opacity: 0.8;">
                 <span class="highlight">// Turning ideas into code</span><br>
                 if (problem.exists()) {<br>
                 &nbsp;&nbsp;solution = developWithCode();<br>
@@ -186,9 +408,9 @@
             </p>
         </header>
 
-        <section id="about" class="mb-16">
+        <section id="about" class="mb-16 animate-on-scroll">
             <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--color-text-primary);">About Me</h2>
-            <div class="neumorphic-card p-8 rounded-2xl">
+            <div id="about-card" class="neumorphic-card p-8 rounded-2xl">
                 <p style="color: var(--color-text-primary); opacity: 0.8;" class="leading-relaxed mb-4">
                     I am a passionate software developer with a strong foundation in the <span class="highlight">MERN
                         stack, Python, C#, PHP, Django, HTML, CSS, and JavaScript</span>. I love building dynamic and
@@ -207,10 +429,10 @@
             </div>
         </section>
 
-        <section id="qualification" class="mb-16">
+        <section id="qualification" class="mb-16 animate-on-scroll">
             <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--color-text-primary);">Qualification</h2>
             <div class="neumorphic-card p-8 rounded-2xl space-y-6">
-                <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-center staggered-list-item">
                     <div>
                         <p class="font-bold text-lg" style="color: var(--color-text-primary);">10th Grade</p>
                         <p style="color: var(--color-text-primary); opacity: 0.8;">Little Flower Secondary School, Rajbiraj</p>
@@ -219,7 +441,7 @@
                         <p class="font-semibold text-gray-700">GPA: 3.9</p>
                     </div>
                 </div>
-                <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-center staggered-list-item">
                     <div>
                         <p class="font-bold text-lg" style="color: var(--color-text-primary);">+2</p>
                         <p style="color: var(--color-text-primary); opacity: 0.8;">Paradise Campus, Rajbiraj</p>
@@ -228,7 +450,7 @@
                         <p class="font-semibold text-gray-700">GPA: 3.5</p>
                     </div>
                 </div>
-                <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+                <div class="flex flex-col md:flex-row md:justify-between md:items-center staggered-list-item">
                     <div>
                         <p class="font-bold text-lg" style="color: var(--color-text-primary);">IT Engineering (4rd Year)</p>
                         <p style="color: var(--color-text-primary); opacity: 0.8;">Nepal College of Information Technology, Lalitpur</p>
@@ -240,98 +462,98 @@
             </div>
         </section>
 
-        <section id="skills" class="mb-16">
+        <section id="skills" class="mb-16 animate-on-scroll">
             <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--color-text-primary);">Skills</h2>
             <div class="neumorphic-card p-8 rounded-2xl space-y-8">
                 <div>
                     <h3 class="text-2xl font-semibold gradient-text mb-4">Technical Skill-set</h3>
                     <div class="flex flex-wrap gap-2">
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">MERN Stack</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Python</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">PHP</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">JavaScript</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">React.js</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Node.js</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Express.js</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">MongoDB</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Django</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">MERN Stack</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Python</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">PHP</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">JavaScript</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">React.js</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Node.js</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Express.js</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">MongoDB</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Django</span>
                     </div>
                 </div>
 
                 <div>
                     <h4 class="text-xl font-medium highlight mb-2">Web Technologies</h4>
                     <div class="flex flex-wrap gap-2">
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">HTML5</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">CSS3</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Tailwind CSS</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Bootstrap</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">REST APIs</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">jQuery</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">HTML5</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">CSS3</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Tailwind CSS</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Bootstrap</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">REST APIs</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">jQuery</span>
                     </div>
                 </div>
 
                 <div>
                     <h4 class="text-xl font-medium highlight mb-2">Tools & Version Control</h4>
                     <div class="flex flex-wrap gap-2">
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Git</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">GitHub</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">VS Code</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Postman</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Docker</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Git</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">GitHub</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">VS Code</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Postman</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Docker</span>
                     </div>
                 </div>
                 <div>
                     <h4 class="text-xl font-medium highlight mb-2">CyberSecurity Tools</h4>
                     <div class="flex flex-wrap gap-2">
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Wireshark</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Metasploit</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Burp Suite</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Nmap</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Kali Linux</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Wireshark</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Metasploit</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Burp Suite</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Nmap</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Kali Linux</span>
                     </div>
                 </div>
                 <div>
                     <h4 class="text-xl font-medium highlight mb-2">Other Skills</h4>
                     <div class="flex flex-wrap gap-2">
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Problem-Solving</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Teamwork</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Communication</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Adaptability</span>
-                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">Creativity</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Problem-Solving</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Teamwork</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Communication</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Adaptability</span>
+                        <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full staggered-list-item skill-badge">Creativity</span>
                     </div>
                 </div>
 
             </div>
         </section>
 
-        <section id="learning" class="mb-16">
+        <section id="learning" class="mb-16 animate-on-scroll">
             <h2 class="text-3xl font-bold mb-4 text-center" style="color: var(--color-text-primary);">Courses & Learning</h2>
             <p class="text-center mb-8" style="color: var(--color-text-primary); opacity: 0.8;">
                 Main technologies and frameworks I have learned through online courses and practical projects.
             </p>
             <div class="flex flex-wrap justify-center">
-                <a href="https://www.youtube.com/watch?v=E6tAtRi82QY&t=575s" class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3" target="_blank">
+                <a href="https://www.youtube.com/watch?v=E6tAtRi82QY&t=575s" class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3 staggered-list-item" target="_blank">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React Logo" class="w-10 h-10">
                     <div>
                         <h3 class="text-lg font-semibold mb-1">React JS / MERN</h3>
                         <p class="text-sm">Learned from Sheriyans Coding School</p>
                     </div>
                 </a>
-                <a href="https://www.youtube.com/playlist?list=PLbtI3_MArDOkXRLxdMt1NOMtCS-84ibHH" class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3" target="_blank">
+                <a href="https://www.youtube.com/playlist?list=PLbtI3_MArDOkXRLxdMt1NOMtCS-84ibHH" class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3 staggered-list-item" target="_blank">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js Logo" class="w-10 h-10">
                     <div>
                         <h3 class="text-lg font-semibold mb-1">Backend Development</h3>
                         <p class="text-sm">Learned from YouTube Sheriyans Coding School</p>
                     </div>
                 </a>
-                <a href="https://www.youtube.com/watch?v=HcOc7P5BMi4" class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3" target="_blank">
+                <a href="https://www.youtube.com/watch?v=HcOc7P5BMi4" class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3 staggered-list-item" target="_blank">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML Logo" class="w-10 h-10">
                     <div>
                         <h3 class="text-lg font-semibold mb-1">HTML, CSS & JavaScript</h3>
                         <p class="text-sm">Learned from Apna College</p>
                     </div>
                 </a>
-                <a href="https://www.youtube.com/watch?v=UrsmFxEIp5k" class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3" target="_blank">
+                <a href="https://www.youtube.com/watch?v=UrsmFxEIp5k" class="m-2 p-4 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow-md transition-colors duration-300 neumorphic-card flex items-center space-x-3 staggered-list-item" target="_blank">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python Logo" class="w-10 h-10">
                     <div>
                         <h3 class="text-lg font-semibold mb-1">Python Programming</h3>
@@ -341,7 +563,7 @@
             </div>
         </section>
 
-        <section id="projects" class="mb-16">
+        <section id="projects" class="mb-16 animate-on-scroll">
             <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--color-text-primary);">Projects</h2>
             <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="neumorphic-card rounded-2xl p-6">
@@ -362,9 +584,9 @@
             </div>
         </section>
 
-        <section id="contact" class="mb-16 text-center">
+        <section id="contact" class="mb-16 text-center animate-on-scroll">
             <h2 class="text-3xl font-bold mb-8" style="color: var(--color-text-primary);">Let's Connect</h2>
-            <div class="neumorphic-card p-8 rounded-2xl">
+            <div id="contact-card" class="neumorphic-card p-8 rounded-2xl">
                 <!-- Contact Links at the top of the card -->
                 <div class="text-center space-y-2 mb-8">
                     <p class="flex items-center justify-center space-x-2">
@@ -398,24 +620,24 @@
                 </div>
 
                 <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-6">
-                    <a href="mailto:roshnimishra1591@gmail.com?subject=Inquiry from your Portfolio Website" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
+                    <a href="mailto:roshnimishra1591@gmail.com?subject=Inquiry from your Portfolio Website" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card cta-pulse">
                         Get In Touch
                     </a>
 
-                    <a href="#home" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
+                    <!-- This link points to a file, which must exist in your directory -->
+                    <a href="/insights.html" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
                         Read My Insights
                     </a>
-                   <a href="#" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card" id="download-cv-btn">
+                    <a href="cvRoshni.pdf" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card" id="download-cv-btn" download>
                         Download CV
                     </a>
                 </div>
             </div>
         </section>
 
-        <section id="contact" class="mb-16 text-center">
-            <h2 class="text-3xl font-bold mb-8" style="color: var(--color-text-primary);">Mail Me</h2>
-            <div class="neumorphic-card p-8 rounded-2xl">
-
+        <section id="contact" class="mb-16 text-center animate-on-scroll">
+            <h2 class="text-3xl font-bold mb-8" style="color: var(--color-text-primary);">Mail me!</h2>
+            <div id="contact-card" class="neumorphic-card p-8 rounded-2xl">
                 <!-- Contact Form -->
                 <div class="mb-8">
                     <h3 class="text-xl font-semibold mb-4 gradient-text">Send Me a Message</h3>
@@ -437,14 +659,12 @@
                             <textarea id="message" name="message" rows="4" required class="neumorphic-input w-full px-4 py-2 rounded-lg" placeholder="Your message..."></textarea>
                         </div>
                         <div>
-                            <button type="submit" style="color: var(--color-text-primary);" class="w-full text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
+                            <button type="submit" id="submit-btn" class="w-full text-white font-medium py-3 px-6 rounded-full transition-colors duration-300 neumorphic-card">
                                 Send Message
                             </button>
                         </div>
-                        <div id="form-message" class="text-center mt-4 text-sm" style="color: var(--color-text-primary);"></div>
                     </form>
                 </div>
-
             </div>
         </section>
 
@@ -462,6 +682,12 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
     </button>
+    
+    <button id="scroll-to-top" onclick="scrollToTop()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -474,7 +700,12 @@
             const mobileLinks = mobileMenu.querySelectorAll('a');
             const username = 'roshnimishra1591';
             const body = document.body;
-            const downloadCvBtn = document.getElementById('download-cv-btn');
+            const sections = document.querySelectorAll('.animate-on-scroll');
+            const staggeredItems = document.querySelectorAll('.staggered-list-item');
+            const aboutCard = document.getElementById('about-card');
+            const contactCard = document.getElementById('contact-card');
+            const projectsCards = document.querySelectorAll('#projects-container .neumorphic-card');
+            const scrollToTopBtn = document.getElementById('scroll-to-top');
 
             const toggleMobileMenu = () => {
                 mobileMenu.classList.toggle('active');
@@ -487,16 +718,42 @@
                     mobileMenu.classList.remove('active');
                 });
             });
+            
+            // Dynamic Glow Effect
+            const cards = document.querySelectorAll('.neumorphic-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    card.style.setProperty('--x', `${x}px`);
+                    card.style.setProperty('--y', `${y}px`);
+                });
+            });
 
             window.addEventListener("scroll", () => {
                 const scrollTop = window.scrollY;
                 const docHeight = document.documentElement.scrollHeight - window.innerHeight;
                 const scrollPercent = (scrollTop / docHeight) * 100;
                 document.getElementById("progress-bar").style.width = scrollPercent + "%";
+                
+                // Show/hide scroll to top button
+                if (scrollTop > 400) {
+                    scrollToTopBtn.classList.add('show');
+                } else {
+                    scrollToTopBtn.classList.remove('show');
+                }
             });
 
+            window.scrollToTop = () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            };
+
             function updateContentTheme(isLightTheme) {
-                const projectImgBg = isLightTheme ? 'e2e8f0' : '121212';
+                const projectImgBg = isLightTheme ? 'ffffff' : '121212';
                 const projectImgColor = isLightTheme ? '121212' : 'FFFFFF';
                 const projectImages = projectsContainer.querySelectorAll('img');
                 projectImages.forEach(img => {
@@ -625,9 +882,9 @@
 
             function animate() {
                 const isLightTheme = body.classList.contains('theme-light');
-                const particleColor = isLightTheme ? '#4a5568' : '#62c3e5';
-                const lineColor = isLightTheme ? 'rgba(74, 85, 104, ' : 'rgba(98, 195, 229, ';
-                const mouseLineColor = isLightTheme ? 'rgba(74, 85, 104, ' : 'rgba(98, 195, 229, ';
+                const particleColor = isLightTheme ? '#4a90e2' : '#62c3e5';
+                const lineColor = isLightTheme ? 'rgba(74, 144, 226, ' : 'rgba(98, 195, 229, ';
+                const mouseLineColor = isLightTheme ? 'rgba(74, 144, 226, ' : 'rgba(98, 195, 229, ';
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = particleColor;
@@ -689,12 +946,49 @@
 
             animate();
 
-            const sections = document.querySelectorAll('section, header');
+            // Intersection Observer for Animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                rootMargin: '0px',
+                threshold: 0.2
+            });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            const staggeredObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const children = entry.target.querySelectorAll('.staggered-list-item');
+                        children.forEach((child, index) => {
+                            child.style.transitionDelay = `${index * 0.1}s`;
+                            child.classList.add('animated');
+                        });
+                        staggeredObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                rootMargin: '0px',
+                threshold: 0.1
+            });
+
+            staggeredObserver.observe(document.getElementById('skills'));
+            staggeredObserver.observe(document.getElementById('qualification'));
+            staggeredObserver.observe(document.getElementById('learning'));
+
+
             const navLinks = document.querySelectorAll('nav a[href^="#"]');
 
             const observerOptions = { root: null, rootMargin: '0px', threshold: 0.5 };
 
-            const observer = new IntersectionObserver((entries) => {
+            const navObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const currentSectionId = entry.target.id;
@@ -710,50 +1004,46 @@
                 });
             }, observerOptions);
 
-            sections.forEach(section => observer.observe(section));
+            sections.forEach(section => navObserver.observe(section));
 
             // Form submission handler
             const contactForm = document.getElementById('contact-form');
             const formMessage = document.getElementById('form-message');
+            const submitBtn = document.getElementById('submit-btn');
 
-            contactForm.addEventListener('submit', async (e) => {
+            // Initialize EmailJS with your Public Key
+            emailjs.init('b4ymY_3OiYEjS0RZ-');
+
+            contactForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                formMessage.textContent = 'Sending message...';
+                const buttonText = submitBtn.innerHTML;
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Sending...
+                `;
+                formMessage.textContent = '';
                 formMessage.classList.remove('text-green-500', 'text-red-500');
 
-                // Simulate form submission
-                try {
-                    // In a real application, you would send the form data to a backend here.
-                    // Example with fetch:
-                    // const formData = new FormData(contactForm);
-                    // const response = await fetch('/your-backend-endpoint', {
-                    //     method: 'POST',
-                    //     body: formData
-                    // });
-                    // if (!response.ok) {
-                    //     throw new Error('Failed to send message.');
-                    // }
-
-                    await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
-
-                    formMessage.textContent = 'Message sent successfully!';
-                    formMessage.classList.add('text-green-500');
-                    contactForm.reset();
-                } catch (error) {
-                    console.error('Submission error:', error);
-                    formMessage.textContent = 'Error sending message. Please try again.';
-                    formMessage.classList.add('text-red-500');
-                }
-                
-            });
-            downloadCvBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const a = document.createElement('a');
-                a.href = '#'; 
-                a.download = 'cvRoshni.pdf'; 
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
+                // Correctly send the form data
+                emailjs.sendForm('service_poy1bw7', 'template_nd7rcen', contactForm)
+                    .then(() => {
+                        formMessage.textContent = 'Message sent successfully!';
+                        formMessage.classList.add('text-green-500');
+                        contactForm.reset();
+                    }, (error) => {
+                        console.error('EmailJS error:', error);
+                        formMessage.textContent = 'Error sending message. Please try again.';
+                        formMessage.classList.add('text-red-500');
+                    })
+                    .finally(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = buttonText;
+                    });
             });
         });
     </script>
