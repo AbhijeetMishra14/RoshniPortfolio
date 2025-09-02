@@ -2,199 +2,280 @@
 <html lang="en" class="scroll-smooth">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Insight Details</title>
-  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #1a202c;
-      color: #cbd5e0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roshni Insights - Blog Post Details</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c;
+            color: #cbd5e0;
+        }
 
-    .gradient-text {
-      background-image: linear-gradient(to right, #66d9ef, #a6e22e);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
-    }
+        .gradient-text {
+            background-image: linear-gradient(to right, #66d9ef, #a6e22e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
 
-    .neumorphic-card {
-      background-color: #1a202c;
-      box-shadow: 8px 8px 16px #121820, -8px -8px 16px #22283a;
-      transition: all 0.3s ease;
-    }
+        .neumorphic-card {
+            background-color: #1a202c;
+            box-shadow: 8px 8px 16px #121820, -8px -8px 16px #22283a;
+            transition: all 0.3s ease;
+        }
 
-    .hero-image {
-      width: 100%;
-      height: auto;
-      max-height: 400px;
-      object-fit: cover;
-      border-radius: 1rem;
-      box-shadow: 8px 8px 16px #121820, -8px -8px 16px #22283a;
-    }
+        .hero-media {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 1rem;
+            box-shadow: 8px 8px 16px #121820, -8px -8px 16px #22283a;
+            display: none; /* Hidden by default, shown by JS */
+        }
 
-    .content-container {
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
+        .content-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
 
-    @media (min-width: 768px) {
-      .content-container {
-        padding: 0 2rem;
-      }
-    }
+        a.back-btn {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: #66d9ef;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
 
-    a.back-btn {
-      display: inline-block;
-      margin-bottom: 1.5rem;
-      color: #66d9ef;
-      font-weight: 600;
-      transition: color 0.2s ease;
-    }
+        a.back-btn:hover {
+            color: #a6e22e;
+        }
 
-    a.back-btn:hover {
-      color: #a6e22e;
-    }
+        #insight-content h1,
+        #insight-content h2,
+        #insight-content h3 {
+            font-weight: bold;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
 
-    #insight-content h1,
-    #insight-content h2,
-    #insight-content h3 {
-      font-weight: bold;
-      margin-top: 2rem;
-      margin-bottom: 1rem;
-    }
+        #insight-content h1 {
+            font-size: 2.25rem;
+            color: #a6e22e;
+        }
 
-    #insight-content h1 {
-      font-size: 2.25rem;
-      color: #a6e22e;
-    }
+        #insight-content h2 {
+            font-size: 1.75rem;
+            color: #a6e22e;
+        }
 
-    #insight-content h2 {
-      font-size: 1.75rem;
-      color: #a6e22e;
-    }
+        #insight-content h3 {
+            font-size: 1.5rem;
+            color: #66d9ef;
+        }
 
-    #insight-content h3 {
-      font-size: 1.5rem;
-      color: #66d9ef;
-    }
+        #insight-content p {
+            margin-bottom: 1rem;
+        }
 
-    #insight-content p {
-      margin-bottom: 1rem;
-    }
+        #insight-content ul,
+        #insight-content ol {
+            list-style-position: inside;
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
 
-    #insight-content ul,
-    #insight-content ol {
-      list-style-position: inside;
-      margin-bottom: 1rem;
-      padding-left: 1.5rem;
-    }
+        #insight-content ul {
+            list-style-type: disc;
+        }
 
-    #insight-content ul {
-      list-style-type: disc;
-    }
+        #insight-content ol {
+            list-style-type: decimal;
+        }
 
-    #insight-content ol {
-      list-style-type: decimal;
-    }
+        #insight-content a {
+            color: #66d9ef;
+            text-decoration: underline;
+        }
 
-    #insight-content a {
-      color: #66d9ef;
-      text-decoration: underline;
-    }
+        #insight-content strong {
+            color: #a6e22e;
+        }
 
-    #insight-content strong {
-      color: #a6e22e;
-    }
+        #insight-content pre {
+            background-color: #2d3748;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+            border: 1px solid #4a5568;
+        }
 
-    #insight-content pre {
-      background-color: #2d3748;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      overflow-x: auto;
-      margin-bottom: 1rem;
-      border: 1px solid #4a5568;
-    }
+        #insight-content code {
+            font-family: monospace;
+        }
 
-    #insight-content code {
-      font-family: monospace;
-    }
-  </style>
+        /* --- NEW STYLING FOR BLOG CONTENT --- */
+
+        /* Blockquotes */
+        #insight-content blockquote {
+            border-left: 4px solid #66d9ef;
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            background-color: #2d3748;
+            border-radius: 0 0.5rem 0.5rem 0;
+            font-style: italic;
+        }
+
+        /* Images and videos within blog content */
+        #insight-content img,
+        #insight-content video {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: 4px 4px 8px #121820, -4px -4px 8px #22283a;
+            margin: 2rem auto;
+            display: block;
+        }
+    </style>
 </head>
 
 <body class="antialiased">
 
-  <!-- Navbar -->
-  <nav class="fixed top-0 w-full bg-opacity-80 backdrop-filter backdrop-blur-lg z-50 shadow-lg"
-    style="background-color: #1a202c;">
-    <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
-      <a href="insights.html" class="text-xl font-bold gradient-text">Roshni Portfolio</a>
+    <!-- Navbar (same as the main page for consistency) -->
+    <nav class="fixed top-0 w-full bg-opacity-80 backdrop-filter backdrop-blur-lg z-50 shadow-lg"
+        style="background-color: #1a202c;">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="insights.html" class="text-xl font-bold gradient-text">Roshni Portfolio</a>
+        </div>
+    </nav>
+
+    <div class="pt-24 content-container">
+        <a href="insights.html" class="back-btn">← Back to Insights</a>
+        <h1 id="insight-title" class="text-4xl font-extrabold mb-2 gradient-text"></h1>
+        <p id="insight-author" class="text-gray-500 text-lg mb-6"></p>
+
+        <!-- Dynamic Hero Media Container -->
+        <img id="insight-image" class="hero-media" src="" alt="Insight Image">
+        <video id="insight-video" class="hero-media" controls autoplay loop muted></video>
+
+        <div id="insight-content" class="text-gray-300 text-lg leading-relaxed mt-10"></div>
     </div>
-  </nav>
 
-  <div class="pt-24 content-container">
-    <a href="insights.html" class="back-btn">← Back to Insights</a>
-    <h1 id="insight-title" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-2 gradient-text"></h1>
-    <p id="insight-author" class="text-gray-500 text-sm sm:text-base mb-6"></p>
-    <img id="insight-image" class="hero-image mb-10" src=""
-      onerror="this.src='https://placehold.co/1200x600/1a202c/FFFFFF?text=Image+Not+Found';" alt="Insight Image">
-    <div id="insight-content" class="text-gray-300 text-sm sm:text-base leading-relaxed"></div>
-  </div>
+    <footer class="py-6 text-center text-gray-500 border-t border-gray-700 mt-12">
+        <p class="text-sm">© 2025 Roshni Portfolio. All Rights Reserved.</p>
+    </footer>
 
-  <footer class="py-6 text-center text-gray-500 border-t border-gray-700 mt-12">
-    <p class="text-sm">© 2025 Roshni Portfolio. All Rights Reserved.</p>
-  </footer>
+    <!-- Include Markdown parser and Firebase SDKs -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-  <!-- Markdown parser -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        // Firebase globals for Canvas environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "AIzaSyBKXdLLXhAwgm8JE4eGmGEnDq6YGs2x-oo",
+            authDomain: "roshni-portfolio-01.firebaseapp.com",
+            projectId: "roshni-portfolio-01",
+            storageBucket: "roshni-portfolio-01.firebasestorage.app",
+            messagingSenderId: "129693722093",
+            appId: "1:129693722093:web:2c0075a465d48451f3f3e4",
+            measurementId: "G-QGCW2GCNPM"
+        };
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
-  <!-- Supabase client -->
-  <script type="module">
-    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+        let app, db, auth;
 
-    const SUPABASE_URL = "https://fyvbghzbgmfiernwhzqh.supabase.co";
-    const SUPABASE_KEY =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5dmJnaHpiZ21maWVybndoenFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTIwMDAsImV4cCI6MjA3MjM4ODAwMH0.GM7ScijBX-ZthVkI60pvbYeAqQLfdd4qZwuQDWcJZNM";
+        async function fetchBlogPost() {
+            try {
+                if (Object.keys(firebaseConfig).length > 0) {
+                    setLogLevel('debug');
+                    app = initializeApp(firebaseConfig);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+                    console.log("Firebase initialized.");
 
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+                    // Sign in to the Canvas environment
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                        console.log("Signed in with custom token.");
+                    } else {
+                        await signInAnonymously(auth);
+                        console.log("Signed in anonymously.");
+                    }
+                } else {
+                    renderError("Firebase config is missing. Cannot initialize Firestore.");
+                    return;
+                }
 
-    // Get URL query param
-    const urlParams = new URLSearchParams(window.location.search);
-    const insightKey = urlParams.get("insight");
+                // Get the blog key from the URL query parameter
+                const urlParams = new URLSearchParams(window.location.search);
+                const blogKey = urlParams.get("key");
 
-    async function loadInsight() {
-      const { data, error } = await supabase
-        .from("blogs") // table name in Supabase
-        .select("*")
-        .eq("key", insightKey) // match blog key
-        .single();
+                if (!blogKey) {
+                    renderError("Blog ID not found in URL. Please go back and select a post.");
+                    return;
+                }
 
-      if (error || !data) {
-        document.getElementById("insight-title").textContent = "Insight Not Found";
-        document.getElementById("insight-content").textContent =
-          "The insight you are looking for does not exist or an error occurred.";
-        document.getElementById("insight-image").src =
-          "https://placehold.co/1200x600/1a202c/FFFFFF?text=Content+Not+Found";
-        return;
-      }
+                // Fetch the blog post from Firestore (no authentication needed for public data)
+                const blogDocRef = doc(db, `artifacts/${appId}/public/data/blogs`, blogKey);
+                const docSnap = await getDoc(blogDocRef);
 
-      document.getElementById("insight-title").textContent = data.title;
-      document.getElementById("insight-author").textContent =
-        "By: " + (data.author || "Roshni Mishra");
-      document.getElementById("insight-image").src = data.image;
-      document.getElementById("insight-content").innerHTML = marked.parse(data.content);
-    }
+                if (docSnap.exists()) {
+                    const blog = docSnap.data();
+                    renderBlog(blog);
+                } else {
+                    renderError("The blog you are looking for does not exist. Please check the URL or try again later.");
+                }
 
-    loadInsight();
-  </script>
+            } catch (e) {
+                console.error("Error fetching blog post:", e);
+                renderError("Failed to load blog post. Please try again later.");
+            }
+        }
+
+        /**
+         * Renders the blog post content, including the hero media (image or video) and
+         * embeds any raw media links found in the content.
+         * @param {Object} blog - The blog post data from Firestore.
+         */
+        function renderBlog(blog) {
+            document.getElementById("insight-title").textContent = blog.title;
+            document.getElementById("insight-author").textContent = "By: " + (blog.author || "Roshni Mishra");
+
+            // Use the `image` property from the blog data for the hero image
+            const heroImage = document.getElementById("insight-image");
+            heroImage.src = blog.image || 'https://placehold.co/1200x600/1a202c/FFFFFF?text=No+Hero+Image';
+            heroImage.style.display = 'block';
+
+            // Hide the video element since we're only using the image
+            document.getElementById("insight-video").style.display = 'none';
+
+            // Parse the markdown content
+            document.getElementById("insight-content").innerHTML = marked.parse(blog.content || "");
+        }
+
+        function renderError(message) {
+            document.getElementById("insight-title").textContent = "Error";
+            document.getElementById("insight-author").textContent = "";
+            document.getElementById("insight-image").src = "https://placehold.co/1200x600/1a202c/FFFFFF?text=Error";
+            document.getElementById("insight-image").style.display = 'block';
+            document.getElementById("insight-video").style.display = 'none';
+            document.getElementById("insight-content").textContent = message;
+        }
+
+        // Start initialization
+        window.onload = fetchBlogPost;
+    </script>
 </body>
 
 </html>
