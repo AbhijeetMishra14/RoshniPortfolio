@@ -12,6 +12,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- Include Marked.js for live markdown preview -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, addDoc, setDoc, deleteDoc, onSnapshot, collection, query, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        window.firebase = {
+            initializeApp,
+            getAuth,
+            signInWithEmailAndPassword,
+            onAuthStateChanged,
+            signOut,
+            signInAnonymously,
+            getFirestore,
+            doc,
+            getDoc,
+            addDoc,
+            setDoc,
+            deleteDoc,
+            onSnapshot,
+            collection,
+            query,
+            setLogLevel
+        };
+        setLogLevel('Debug');
+    </script>
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -95,15 +123,6 @@
             flex-direction: column;
             overflow: hidden;
         }
-        
-        @media (max-width: 768px) {
-            .blog-editor-container {
-                width: 100%;
-                height: 100%;
-                border-radius: 0;
-            }
-        }
-
 
         .blog-editor-container input,
         .blog-editor-container textarea {
@@ -122,7 +141,7 @@
             resize: vertical;
         }
 
-        /* Style for live preview of markdown */
+        /* --- STYLES FOR THE LIVE PREVIEW PANE --- */
         #previewContent {
             background-color: #2d3748;
             padding: 1.5rem;
@@ -130,7 +149,6 @@
             overflow-y: auto;
             border: 2px solid #2d3748;
             height: 100%;
-            /* Important for grid layout */
         }
 
         #previewContent h1,
@@ -175,6 +193,32 @@
             color: #66d9ef;
             text-decoration: underline;
         }
+
+        #previewContent strong {
+            color: #a6e22e;
+        }
+
+        #previewContent blockquote {
+            border-left: 4px solid #66d9ef;
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            background-color: #2d3748;
+            border-radius: 0 0.5rem 0.5rem 0;
+            font-style: italic;
+        }
+
+        #previewContent pre {
+            background-color: #1a202c;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+            border: 1px solid #4a5568;
+        }
+
+        #previewContent code {
+            font-family: monospace;
+        }
     </style>
 </head>
 
@@ -183,31 +227,34 @@
     <!-- Navbar -->
     <nav class="fixed top-0 w-full bg-opacity-80 backdrop-filter backdrop-blur-lg z-50 shadow-lg"
         style="background-color: #1a202c;">
-        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center flex-wrap">
-            <a href="index.html" class="text-xl font-bold gradient-text mb-2 sm:mb-0">Roshni Portfolio</a>
-            <div class="space-x-2 sm:space-x-4 flex-grow-0 flex-shrink-0">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold gradient-text">Roshni Portfolio</a>
+            <div class="space-x-4 flex items-center">
+                <p id="userIdDisplay" class="text-sm text-gray-500 font-mono italic truncate max-w-[150px] sm:max-w-none">
+                    Not authenticated</p>
                 <button id="addBlogNavBtn"
-                    class="btn-primary px-3 py-1 sm:px-4 sm:py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 text-sm sm:text-base hidden">Add
+                    class="btn-primary px-4 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 hidden">Add
                     Blog</button>
                 <button id="loginBtn"
-                    class="btn-primary px-3 py-1 sm:px-4 sm:py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 text-sm sm:text-base">Login</button>
+                    class="btn-primary px-4 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105">Login</button>
                 <button id="logoutBtn"
-                    class="bg-red-500 px-3 py-1 sm:px-4 sm:py-2 rounded-full font-semibold hover:bg-red-600 hidden transition-all duration-300 transform hover:scale-105 text-sm sm:text-base">Logout</button>
+                    class="bg-red-500 px-4 py-2 rounded-full font-semibold hover:bg-red-600 hidden transition-all duration-300 transform hover:scale-105">Logout</button>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <header class="pt-28 pb-12 text-center max-w-4xl mx-auto px-4">
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 gradient-text">Insights & Articles</h1>
-        <p class="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto leading-relaxed">
+        <h1 class="text-5xl font-extrabold tracking-tight mb-4 gradient-text">Insights & Articles</h1>
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
             Dive into my thoughts on the latest tech trends, from AI to full-stack development.
             This is where I share my journey and discoveries.
         </p>
     </header>
 
     <!-- Insights Cards -->
-    <main id="cardsContainer" class="max-w-4xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+    <main id="cardsContainer" class="max-w-4xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <p id="loadingMessage" class="col-span-full text-center text-lg text-gray-500">Loading blog posts...</p>
     </main>
 
     <footer class="py-6 text-center text-gray-500 border-t border-gray-700 mt-12">
@@ -216,44 +263,44 @@
 
     <!-- Login Modal -->
     <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center hidden">
-        <div class="neumorphic-card p-6 sm:p-8 rounded-2xl shadow-lg w-11/12 max-w-sm">
-            <h2 class="text-xl sm:text-2xl font-bold text-center mb-4">Admin Login</h2>
-            <input id="email" type="email" placeholder="Email" class="input-field w-full p-3 mb-4 rounded-lg text-sm sm:text-base">
+        <div class="neumorphic-card p-8 rounded-2xl shadow-lg w-96">
+            <h2 class="text-2xl font-bold text-center mb-4">Admin Login</h2>
+            <input id="email" type="email" placeholder="Email" class="input-field w-full p-3 mb-4 rounded-lg">
             <input id="password" type="password" placeholder="Password"
-                class="input-field w-full p-3 mb-6 rounded-lg text-sm sm:text-base">
+                class="input-field w-full p-3 mb-6 rounded-lg">
             <button id="submitLogin"
-                class="btn-primary w-full p-3 rounded-full font-bold transition-all duration-300 transform hover:scale-105 text-sm sm:text-base">Login</button>
+                class="btn-primary w-full p-3 rounded-full font-bold transition-all duration-300 transform hover:scale-105">Login</button>
         </div>
     </div>
 
     <!-- Add/Edit Blog Modal (Full-screen editor) -->
     <div id="addBlogModal" class="modal-overlay hidden">
         <div class="blog-editor-container neumorphic-card">
-            <h2 id="modalTitle" class="text-xl sm:text-3xl font-bold mb-4 gradient-text">Create a New Blog Post</h2>
+            <h2 id="modalTitle" class="text-3xl font-bold mb-4 gradient-text">Create a New Blog Post</h2>
             <input type="hidden" id="blogKey">
-            <!-- Three-column grid for editor, preview, and guide, becomes single column on small screens -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 h-full min-h-[500px]">
+            <!-- Three-column grid for editor, preview, and guide -->
+            <div class="grid md:grid-cols-3 gap-8 h-full min-h-[500px]">
                 <!-- Input/Editor Column -->
                 <div class="flex flex-col h-full">
                     <input id="blogTitle" type="text" placeholder="Blog Title"
-                        class="input-field w-full p-3 rounded-lg text-lg sm:text-2xl font-semibold">
+                        class="input-field w-full p-3 rounded-lg text-2xl font-semibold">
                     <input id="blogAuthor" type="text" placeholder="Author Name"
-                        class="input-field w-full p-3 rounded-lg text-sm sm:text-lg">
+                        class="input-field w-full p-3 rounded-lg text-lg">
                     <input id="blogImage" type="text" placeholder="Image URL (optional)"
-                        class="input-field w-full p-3 rounded-lg text-sm sm:text-lg">
+                        class="input-field w-full p-3 rounded-lg text-lg">
                     <!-- Markdown Editor -->
                     <textarea id="blogContent" placeholder="Start writing your blog content here..."
-                        class="input-field w-full p-3 rounded-lg text-sm sm:text-base flex-grow min-h-[200px]"></textarea>
+                        class="input-field w-full p-3 rounded-lg text-base flex-grow min-h-[300px]"></textarea>
                 </div>
                 <!-- Live Preview Column -->
-                <div class="flex flex-col h-full hidden md:flex">
-                    <h3 class="text-lg sm:text-xl font-bold mb-4 gradient-text">Live Preview</h3>
+                <div class="flex flex-col h-full">
+                    <h3 class="text-xl font-bold mb-4 gradient-text">Live Preview</h3>
                     <!-- This div will display the formatted markdown output -->
                     <div id="previewContent" class="input-field overflow-y-auto"></div>
                 </div>
                 <!-- Markdown Quick Guide Column -->
-                <div class="flex flex-col h-full hidden md:flex">
-                    <h3 class="text-lg sm:text-xl font-bold mb-4 gradient-text">Markdown Quick Guide</h3>
+                <div class="flex flex-col h-full">
+                    <h3 class="text-xl font-bold mb-4 gradient-text">Markdown Quick Guide</h3>
                     <div class="input-field overflow-y-auto">
                         <ul class="list-disc space-y-2 text-sm text-gray-400">
                             <li><strong>Headings:</strong> Use `#` to `###` for different sizes.</li>
@@ -281,278 +328,355 @@ console.log(myVar);`</li>
                     </div>
                 </div>
             </div>
-            <div class="flex justify-end space-x-2 sm:space-x-4 mt-4 sm:mt-8">
+            <div class="flex justify-end space-x-4 mt-8">
                 <button id="deleteBlogBtn"
-                    class="bg-red-500 hover:bg-red-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-bold transition-colors hidden text-sm sm:text-base">Delete
+                    class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full font-bold transition-colors hidden">Delete
                     Blog</button>
                 <button id="cancelAddBlogBtn"
-                    class="bg-gray-600 hover:bg-gray-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-bold transition-colors text-sm sm:text-base">Cancel</button>
+                    class="bg-gray-600 hover:bg-gray-500 text-white px-6 py-3 rounded-full font-bold transition-colors">Cancel</button>
                 <button id="addBlogBtn"
-                    class="btn-primary px-4 sm:px-6 py-2 sm:py-3 rounded-full font-bold transition-colors text-sm sm:text-base">Save Blog</button>
+                    class="btn-primary px-6 py-3 rounded-full font-bold transition-colors">Save Blog</button>
             </div>
         </div>
     </div>
 
     <!-- Custom alert/message box -->
     <div id="messageBox"
-        class="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 bg-gray-800 text-white p-3 sm:p-4 rounded-lg shadow-lg hidden transition-opacity duration-300 text-sm sm:text-base">
+        class="fixed bottom-8 right-8 bg-gray-800 text-white p-4 rounded-lg shadow-lg hidden transition-opacity duration-300">
         <p id="messageText"></p>
     </div>
 
-<script type="module">
-  // Firebase imports
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.2/firebase-app.js";
-  import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.6.2/firebase-firestore.js";
+    <script type="module">
+        const { initializeApp, getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, signInAnonymously, getFirestore, doc, getDoc, addDoc, setDoc, deleteDoc, onSnapshot, collection, query, setLogLevel } = window.firebase;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        
+        // Hardcoded Firebase config to fix the initialization error
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKXdLLXhAwgm8JE4eGmGEnDq6YGs2x-oo",
+            authDomain: "roshni-portfolio-01.firebaseapp.com",
+            projectId: "roshni-portfolio-01",
+            storageBucket: "roshni-portfolio-01.firebasestorage.app",
+            messagingSenderId: "129693722093",
+            appId: "1:129693722093:web:2c0075a465d48451f3f3e4",
+            measurementId: "G-QGCW2GCNPM"
+        };
+        
+        let app, db, auth, userId = null;
+        let isAuthReady = false;
+        let currentUser = null; // Store the Firebase user object
 
-  // Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyBKXdLLXhAwgm8JE4eGmGEnDq6YGs2x-oo",
-    authDomain: "roshni-portfolio-01.firebaseapp.com",
-    projectId: "roshni-portfolio-01",
-    storageBucket: "roshni-portfolio-01.firebasestorage.app",
-    messagingSenderId: "129693722093",
-    appId: "1:129693722093:web:2c0075a465d48451f3f3e4",
-    measurementId: "G-QGCW2GCNPM"
-  };
+        // Elements
+        const loginBtn = document.getElementById("loginBtn");
+        const logoutBtn = document.getElementById("logoutBtn");
+        const addBlogNavBtn = document.getElementById("addBlogNavBtn");
+        const loginModal = document.getElementById("loginModal");
+        const submitLoginBtn = document.getElementById("submitLogin");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const addBlogModal = document.getElementById("addBlogModal");
+        const addBlogBtn = document.getElementById("addBlogBtn");
+        const cancelAddBlogBtn = document.getElementById("cancelAddBlogBtn");
+        const deleteBlogBtn = document.getElementById("deleteBlogBtn");
+        const cardsContainer = document.getElementById("cardsContainer");
+        const messageBox = document.getElementById("messageBox");
+        const messageText = document.getElementById("messageText");
+        const modalTitle = document.getElementById("modalTitle");
+        const blogKeyInput = document.getElementById("blogKey");
+        const userIdDisplay = document.getElementById("userIdDisplay");
+        const loadingMessage = document.getElementById("loadingMessage");
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+        // Blog content inputs and preview
+        const blogTitleInput = document.getElementById("blogTitle");
+        const blogAuthorInput = document.getElementById("blogAuthor");
+        const blogImageInput = document.getElementById("blogImage");
+        const blogContentInput = document.getElementById("blogContent");
+        const previewContent = document.getElementById("previewContent");
 
-  // Predefined user (leave as is)
-  const USER_EMAIL = "roshnimishra@gmail.com";
-  const USER_PASS = "roshnimishra001";
+        // Custom message box function
+        function showMessage(message) {
+            messageText.textContent = message;
+            messageBox.classList.remove("hidden");
+            messageBox.style.opacity = 1;
+            setTimeout(() => {
+                messageBox.style.opacity = 0;
+                setTimeout(() => messageBox.classList.add("hidden"), 300);
+            }, 3000);
+        }
 
-  // Elements (same as before)
-  const loginBtn = document.getElementById("loginBtn");
-  const logoutBtn = document.getElementById("logoutBtn");
-  const addBlogNavBtn = document.getElementById("addBlogNavBtn");
-  const loginModal = document.getElementById("loginModal");
-  const addBlogModal = document.getElementById("addBlogModal");
-  const submitLogin = document.getElementById("submitLogin");
-  const addBlogBtn = document.getElementById("addBlogBtn");
-  const cancelAddBlogBtn = document.getElementById("cancelAddBlogBtn");
-  const deleteBlogBtn = document.getElementById("deleteBlogBtn");
-  const cardsContainer = document.getElementById("cardsContainer");
-  const messageBox = document.getElementById("messageBox");
-  const messageText = document.getElementById("messageText");
-  const modalTitle = document.getElementById("modalTitle");
-  const blogKeyInput = document.getElementById("blogKey");
+        // Renders the blog cards from the fetched data
+        function renderBlogs(blogs) {
+            cardsContainer.innerHTML = "";
+            loadingMessage.classList.add("hidden");
+            if (blogs.length === 0) {
+                cardsContainer.innerHTML = `<p class="col-span-full text-center text-lg text-gray-500">No blog posts yet. Be the first to add one!</p>`;
+            } else {
+                blogs.forEach(blog => {
+                    const card = document.createElement("div");
+                    card.className = "neumorphic-card p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300";
+                    card.innerHTML = `
+                        <img src="${blog.image}" onerror="this.onerror=null; this.src='https://placehold.co/800x600/1a202c/FFFFFF?text=Placeholder'" alt="${blog.title}" class="rounded-xl mb-4 w-full h-48 object-cover transition-transform duration-300 transform hover:scale-105">
+                        <h2 class="text-xl font-bold my-3 gradient-text">${blog.title}</h2>
+                        <p class="text-gray-400 mb-4 line-clamp-3">${blog.desc}</p>
+                        <a href="/insight.html?key=${blog.key}" class="text-blue-400 hover:text-blue-300 font-medium read-more-btn">Read More →</a>
+                        <button class="edit-btn text-blue-400 hover:text-blue-300 font-medium ml-4 hidden" data-key="${blog.key}">Edit</button>
+                    `;
+                    cardsContainer.appendChild(card);
+                });
+            }
+            updateUIForLogin();
+        }
 
-  const blogTitleInput = document.getElementById("blogTitle");
-  const blogAuthorInput = document.getElementById("blogAuthor");
-  const blogImageInput = document.getElementById("blogImage");
-  const blogContentInput = document.getElementById("blogContent");
-  const previewContent = document.getElementById("previewContent");
+        // Hides/shows UI elements based on login status
+        function updateUIForLogin() {
+            // Check if user is authenticated and is NOT an anonymous user
+            if (isAuthReady && currentUser && !currentUser.isAnonymous) {
+                document.querySelectorAll(".edit-btn").forEach(btn => btn.classList.remove("hidden"));
+                addBlogNavBtn.classList.remove("hidden");
+                logoutBtn.classList.remove("hidden");
+                loginBtn.classList.add("hidden");
+                userIdDisplay.textContent = `UserID: ${userId}`;
+            } else {
+                document.querySelectorAll(".edit-btn").forEach(btn => btn.classList.add("hidden"));
+                addBlogNavBtn.classList.add("hidden");
+                logoutBtn.classList.add("hidden");
+                loginBtn.classList.remove("hidden");
+                userIdDisplay.textContent = 'Not authenticated';
+            }
+        }
 
-  let blogs = [];
+        // Firebase Initialization and Authentication
+        async function initializeFirebase() {
+            try {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
 
-  function showMessage(message) {
-    messageText.textContent = message;
-    messageBox.classList.remove("hidden");
-    messageBox.style.opacity = 1;
-    setTimeout(() => {
-      messageBox.style.opacity = 0;
-      setTimeout(() => messageBox.classList.add("hidden"), 300);
-    }, 3000);
-  }
+                // This listener ensures we're authenticated before fetching data
+                onAuthStateChanged(auth, (user) => {
+                    currentUser = user; // Store the current user object
+                    userId = user ? user.uid : null;
+                    isAuthReady = true;
+                    // Start fetching data only after authentication state is confirmed
+                    setupRealtimeListener();
+                    updateUIForLogin();
+                });
 
-  // Load blogs from Firebase
-  async function loadBlogs() {
-    try {
-      const q = query(collection(db, "blogs"), orderBy("created_at", "desc"));
-      const querySnapshot = await getDocs(q);
-      blogs = querySnapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
-      renderBlogs();
-    } catch (error) {
-      console.error(error);
-      showMessage("Error loading blogs");
-    }
-  }
+                // Sign in anonymously on page load for non-admin users to view content
+                if (!auth.currentUser) {
+                    await signInAnonymously(auth);
+                }
 
-  // Add new blog
-  async function addBlog(blog) {
-    try {
-      const docRef = await addDoc(collection(db, "blogs"), { ...blog, created_at: new Date() });
-      blogs.unshift({ id: docRef.id, ...blog });
-      renderBlogs();
-      showMessage("Blog added successfully!");
-    } catch (error) {
-      console.error(error);
-      showMessage("Error adding blog");
-    }
-  }
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+                if (error.code === 'auth/admin-restricted-operation') {
+                    console.error("Please enable 'Anonymous' sign-in in your Firebase Authentication settings to fix this error.");
+                    showMessage("Authentication failed. Please check Firebase settings.");
+                } else {
+                    showMessage("Failed to connect to the database.");
+                }
+            }
+        }
 
-  // Update blog
-  async function updateBlog(blog, id) {
-    try {
-      const docRef = doc(db, "blogs", id);
-      await updateDoc(docRef, blog);
-      const idx = blogs.findIndex(b => b.id === id);
-      blogs[idx] = { ...blogs[idx], ...blog };
-      renderBlogs();
-      showMessage("Blog updated successfully!");
-    } catch (error) {
-      console.error(error);
-      showMessage("Error updating blog");
-    }
-  }
+        // Set up real-time listener for blogs
+        function setupRealtimeListener() {
+            if (!db) return;
 
-  // Delete blog
-  async function deleteBlog(id) {
-    try {
-      await deleteDoc(doc(db, "blogs", id));
-      blogs = blogs.filter(b => b.id !== id);
-      renderBlogs();
-      showMessage("Blog deleted successfully!");
-    } catch (error) {
-      console.error(error);
-      showMessage("Error deleting blog");
-    }
-  }
+            // Use the public collection path for blogs
+            const blogsRef = collection(db, `artifacts/${appId}/public/data/blogs`);
+            onSnapshot(blogsRef, (snapshot) => {
+                const blogs = [];
+                snapshot.forEach(doc => {
+                    blogs.push({ key: doc.id, ...doc.data() });
+                });
+                renderBlogs(blogs);
+            }, (error) => {
+                console.error("Error fetching documents:", error);
+                if (error.code === 'permission-denied') {
+                    console.error("The 'permission-denied' error means your Firestore security rules are preventing this app from reading the blog data. Please update your rules to allow public reads. Example: 'allow read: if true;'");
+                    showMessage("Permissions error: You may need to update your Firestore security rules to allow public reads.");
+                } else {
+                    showMessage("Failed to fetch blogs from database.");
+                }
+            });
+        }
 
-  // Render blogs
-  function renderBlogs() {
-    cardsContainer.innerHTML = "";
-    blogs.forEach(blog => {
-      const card = document.createElement("div");
-      card.className = "neumorphic-card p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300";
-      card.innerHTML = `
-        <img src="${blog.image}" alt="${blog.title}" class="rounded-xl mb-4 w-full h-48 object-cover transition-transform duration-300 transform hover:scale-105">
-        <h2 class="text-xl font-bold my-3 gradient-text">${blog.title}</h2>
-        <p class="text-gray-400 mb-4 line-clamp-3">${blog.desc}</p>
-        <a href="insight.html?insight=${blog.id}" class="text-blue-400 hover:text-blue-300 font-medium">Read More →</a>
-        <button class="edit-btn text-blue-400 hover:text-blue-300 font-medium ml-4 hidden" data-id="${blog.id}">Edit</button>
-      `;
-      cardsContainer.appendChild(card);
-    });
-    updateUIForLogin();
-  }
+        // Opens the Add/Edit blog modal with optional pre-filled content
+        async function openAddBlogModal(isNew = true, blogData = {}) {
+            if (!isAuthReady || (currentUser && currentUser.isAnonymous)) {
+                showMessage("You must be logged in to add or edit a blog.");
+                return;
+            }
 
-  // Auth and UI
-  function setAuthState(loggedIn) {
-    if (loggedIn) {
-      localStorage.setItem("loggedIn", "true");
-      loginBtn.classList.add("hidden");
-      logoutBtn.classList.remove("hidden");
-      addBlogNavBtn.classList.remove("hidden");
-    } else {
-      localStorage.removeItem("loggedIn");
-      loginBtn.classList.remove("hidden");
-      logoutBtn.classList.add("hidden");
-      addBlogNavBtn.classList.add("hidden");
-    }
-    updateUIForLogin();
-  }
+            if (isNew) {
+                modalTitle.textContent = "Create a New Blog Post";
+                addBlogBtn.textContent = "Save Blog";
+                blogKeyInput.value = "";
+                addBlogBtn.classList.remove("hidden");
+                deleteBlogBtn.classList.add("hidden");
+                blogTitleInput.value = "";
+                blogAuthorInput.value = 'Roshni Mishra';
+                blogImageInput.value = "";
+                blogContentInput.value = `# My New Blog Post
 
-  function updateUIForLogin() {
-    const isLoggedIn = localStorage.getItem("loggedIn") === "true";
-    document.querySelectorAll(".edit-btn").forEach(btn => {
-      btn.classList.toggle("hidden", !isLoggedIn);
-    });
-  }
+## A Subheading
 
-  if (localStorage.getItem("loggedIn") === "true") setAuthState(true);
+Start writing your **blog content** here. You can use markdown to format your text.
 
-  // Blog modal logic (same as before)
-  function openAddBlogModal(isNew = true, blogData = {}) {
-    if (isNew) {
-      modalTitle.textContent = "Create a New Blog Post";
-      addBlogBtn.textContent = "Save Blog";
-      blogKeyInput.value = "";
-      addBlogBtn.classList.remove("hidden");
-      deleteBlogBtn.classList.add("hidden");
-      blogTitleInput.value = "";
-      blogAuthorInput.value = "Roshni Mishra";
-      blogImageInput.value = "";
-      blogContentInput.value = "";
-    } else {
-      modalTitle.textContent = "Edit Blog Post";
-      addBlogBtn.textContent = "Update Blog";
-      blogKeyInput.value = blogData.id;
-      blogTitleInput.value = blogData.title;
-      blogAuthorInput.value = blogData.author || "Roshni Mishra";
-      blogImageInput.value = blogData.image || "";
-      blogContentInput.value = blogData.content;
-      addBlogBtn.classList.remove("hidden");
-      deleteBlogBtn.classList.remove("hidden");
-    }
-    updatePreview();
-    addBlogModal.classList.remove("hidden");
-  }
+- Use a bulleted list.
+- Like this.
 
-  function updatePreview() {
-    previewContent.innerHTML = marked.parse(blogContentInput.value);
-  }
+1. Or a numbered list.
+2. Like this.
 
-  // Event listeners (same as before)
-  loginBtn.addEventListener("click", () => loginModal.classList.remove("hidden"));
-  submitLogin.addEventListener("click", () => {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    if (email === USER_EMAIL && password === USER_PASS) {
-      loginModal.classList.add("hidden");
-      setAuthState(true);
-      showMessage("Login successful!");
-    } else {
-      showMessage("Invalid email or password!");
-    }
-  });
+You can also use \`code blocks\` for code snippets.
 
-  logoutBtn.addEventListener("click", () => {
-    setAuthState(false);
-    showMessage("Logged out successfully!");
-  });
+\`\`\`javascript
+// Example Code
+const myVar = 'Hello, World!';
+console.log(myVar);
+\`\`\`
+`;
+            } else {
+                modalTitle.textContent = "Edit Blog Post";
+                addBlogBtn.textContent = "Update Blog";
+                blogKeyInput.value = blogData.key;
+                blogTitleInput.value = blogData.title;
+                blogAuthorInput.value = blogData.author || "Roshni Mishra";
+                blogImageInput.value = blogData.image || "";
+                blogContentInput.value = blogData.content;
+                addBlogBtn.classList.remove("hidden");
+                deleteBlogBtn.classList.remove("hidden");
+            }
+            updatePreview();
+            addBlogModal.classList.remove("hidden");
+        }
 
-  addBlogNavBtn.addEventListener("click", () => openAddBlogModal(true));
-  cancelAddBlogBtn.addEventListener("click", () => addBlogModal.classList.add("hidden"));
+        // Updates the live preview pane with formatted markdown
+        function updatePreview() {
+            const markdownText = blogContentInput.value;
+            previewContent.innerHTML = marked.parse(markdownText);
+        }
 
-  addBlogBtn.addEventListener("click", async () => {
-    const title = blogTitleInput.value.trim();
-    const author = blogAuthorInput.value.trim() || "Roshni Mishra";
-    const image = blogImageInput.value.trim();
-    const content = blogContentInput.value.trim();
-    const id = blogKeyInput.value.trim();
+        // Event Listeners
+        loginBtn.addEventListener("click", () => loginModal.classList.remove("hidden"));
+        addBlogNavBtn.addEventListener("click", () => openAddBlogModal(true));
+        cancelAddBlogBtn.addEventListener("click", () => addBlogModal.classList.add("hidden"));
 
-    if (title && content) {
-      const desc = content.substring(0, 200).replace(/\n/g, " ") + "...";
-      const blogImage = image || `https://placehold.co/800x600/1a202c/FFFFFF?text=${encodeURIComponent(title.split(" ")[0])}`;
-      const blogData = { title, author, desc, content, image: blogImage };
+        submitLoginBtn.addEventListener("click", async () => {
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
 
-      if (id) await updateBlog(blogData, id);
-      else await addBlog(blogData);
+            if (!email || !password) {
+                showMessage("Please enter both email and password.");
+                return;
+            }
 
-      addBlogModal.classList.add("hidden");
-    } else {
-      showMessage("Please fill out all required fields!");
-    }
-  });
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                loginModal.classList.add("hidden");
+                showMessage("Login successful!");
+            } catch (error) {
+                console.error("Login failed:", error.message);
+                if (error.code === 'auth/operation-not-allowed') {
+                    showMessage("Login failed. Email/Password sign-in is not enabled. Please check your Firebase settings.");
+                } else {
+                    showMessage("Login failed. Check your email and password.");
+                }
+            }
+        });
 
-  deleteBlogBtn.addEventListener("click", async () => {
-    const idToDelete = blogKeyInput.value.trim();
-    if (idToDelete) {
-      await deleteBlog(idToDelete);
-      addBlogModal.classList.add("hidden");
-    }
-  });
+        // Save/Update blog logic
+        addBlogBtn.addEventListener("click", async () => {
+            const title = blogTitleInput.value.trim();
+            const author = blogAuthorInput.value.trim() || "Roshni Mishra";
+            const image = blogImageInput.value.trim();
+            const content = blogContentInput.value.trim();
+            const key = blogKeyInput.value.trim();
 
-  document.addEventListener("click", e => {
-    if (e.target.classList.contains("edit-btn")) {
-      const blogId = e.target.getAttribute("data-id");
-      const blogToEdit = blogs.find(b => b.id === blogId);
-      if (blogToEdit) openAddBlogModal(false, blogToEdit);
-    }
-  });
+            if (title && content && userId && !currentUser.isAnonymous) {
+                const desc = content.substring(0, 200).replace(/\n/g, ' ') + '...';
+                const blogImage = image || "https://placehold.co/800x600/1a202c/FFFFFF?text=" + encodeURIComponent(title.split(' ')[0]);
+                const blogData = {
+                    title,
+                    author,
+                    desc,
+                    content,
+                    image: blogImage,
+                    createdAt: new Date().toISOString()
+                };
 
-  blogContentInput.addEventListener("input", updatePreview);
+                try {
+                    // Use the public collection path
+                    const blogsRef = collection(db, `artifacts/${appId}/public/data/blogs`);
+                    if (key) {
+                        await setDoc(doc(blogsRef, key), blogData);
+                        showMessage("Blog updated successfully!");
+                    } else {
+                        await addDoc(blogsRef, blogData);
+                        showMessage("Blog added successfully!");
+                    }
+                    addBlogModal.classList.add("hidden");
+                } catch (e) {
+                    console.error("Error saving blog:", e);
+                    showMessage("Failed to save blog post.");
+                }
+            } else {
+                showMessage("Please fill out all required fields and ensure you are authenticated.");
+            }
+        });
 
-  // Initial load
-  loadBlogs();
-</script>
+        // Delete blog logic
+        deleteBlogBtn.addEventListener("click", async () => {
+            const keyToDelete = blogKeyInput.value.trim();
+            if (keyToDelete && userId && !currentUser.isAnonymous) {
+                try {
+                    // Use the public collection path
+                    const blogDocRef = doc(db, `artifacts/${appId}/public/data/blogs`, keyToDelete);
+                    await deleteDoc(blogDocRef);
+                    showMessage("Blog deleted successfully!");
+                    addBlogModal.classList.add("hidden");
+                } catch (e) {
+                    console.error("Error deleting blog:", e);
+                    showMessage("Failed to delete blog post.");
+                }
+            }
+        });
 
+        // Edit button click listener
+        document.addEventListener("click", async (e) => {
+            if (e.target.classList.contains("edit-btn") && currentUser && !currentUser.isAnonymous) {
+                const blogKey = e.target.getAttribute("data-key");
+                try {
+                    // Use the public collection path
+                    const blogDocRef = doc(db, `artifacts/${appId}/public/data/blogs`, blogKey);
+                    const docSnap = await getDoc(blogDocRef);
+                    if (docSnap.exists()) {
+                        openAddBlogModal(false, { key: docSnap.id, ...docSnap.data() });
+                    }
+                } catch (e) {
+                    console.error("Error fetching blog for edit:", e);
+                    showMessage("Failed to load blog for editing.");
+                }
+            }
+        });
+
+        // Logout listener
+        logoutBtn.addEventListener("click", async () => {
+            try {
+                await signOut(auth);
+                showMessage("Logged out successfully!");
+            } catch (e) {
+                console.error("Error during logout:", e);
+                showMessage("Logout failed.");
+            }
+        });
+
+        // Event listener for live preview
+        blogContentInput.addEventListener("input", updatePreview);
+
+        // Start Firebase initialization
+        initializeFirebase();
+    </script>
+</body>
 
 </html>
-
-
-
-
