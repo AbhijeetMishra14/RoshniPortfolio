@@ -299,270 +299,264 @@ console.log(myVar);`</li>
         <p id="messageText"></p>
     </div>
 
-    <script>
-        // Predefined user
-        const USER_EMAIL = "roshnimishra@gmail.com";
-        const USER_PASS = "roshnimishra001";
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-        // Elements
-        const loginBtn = document.getElementById("loginBtn");
-        const logoutBtn = document.getElementById("logoutBtn");
-        const addBlogNavBtn = document.getElementById("addBlogNavBtn");
-        const loginModal = document.getElementById("loginModal");
-        const addBlogModal = document.getElementById("addBlogModal");
-        const submitLogin = document.getElementById("submitLogin");
-        const addBlogBtn = document.getElementById("addBlogBtn");
-        const cancelAddBlogBtn = document.getElementById("cancelAddBlogBtn");
-        const deleteBlogBtn = document.getElementById("deleteBlogBtn");
-        const cardsContainer = document.getElementById("cardsContainer");
-        const messageBox = document.getElementById("messageBox");
-        const messageText = document.getElementById("messageText");
-        const modalTitle = document.getElementById("modalTitle");
-        const blogKeyInput = document.getElementById("blogKey");
+  // Supabase connection
+  const SUPABASE_URL = "https://fyvbghzbgmfiernwhzqh.supabase.co";
+  const SUPABASE_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5dmJnaHpiZ21maWVybndoenFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTIwMDAsImV4cCI6MjA3MjM4ODAwMH0.GM7ScijBX-ZthVkI60pvbYeAqQLfdd4qZwuQDWcJZNM";
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Blog content inputs and preview
-        const blogTitleInput = document.getElementById("blogTitle");
-        const blogAuthorInput = document.getElementById("blogAuthor");
-        const blogImageInput = document.getElementById("blogImage");
-        const blogContentInput = document.getElementById("blogContent");
-        const previewContent = document.getElementById("previewContent");
+  // Predefined user (leave as is for now)
+  const USER_EMAIL = "roshnimishra@gmail.com";
+  const USER_PASS = "roshnimishra001";
 
-        // Load blogs from localStorage
-        let blogs = JSON.parse(localStorage.getItem("blogs")) || [
-            {
-                title: "The Future of AI",
-                image: "https://images.unsplash.com/photo-1697577418970-95d99b5a55cf?q=80&w=996&auto=format&fit=crop",
-                desc: "Learn how AI is shaping our world and changing the way we live and work.",
-                key: "ai",
-                content: "## The Rise of Generative AI\n\nGenerative AI, like language models and image generators, is revolutionizing creative industries. It can create new text, images, music, and more, pushing the boundaries of what is possible. It's a fascinating field that is evolving at a rapid pace.\n\n- **Efficiency:** Automating repetitive tasks.\n- **Creativity:** Providing new tools for artists and writers.\n- **Innovation:** Powering new applications and services.\n\nAI is no longer a futuristic concept; it is an integral part of our daily lives."
-            },
-            {
-                title: "React & Frontend Trends",
-                image: "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?q=80&w=1470&auto=format&fit=crop",
-                desc: "Explore modern frontend development practices and tools used in React projects.",
-                key: "react",
-                content: "## The Modern Frontend Stack\n\nThe frontend ecosystem is constantly changing, but some technologies are here to stay. React remains a dominant force, supported by powerful tools like Vite and Tailwind CSS.\n\n- **Vite:** A lightning-fast build tool for modern web projects.\n- **Tailwind CSS:** A utility-first CSS framework for rapid UI development.\n- **State Management:** Libraries like Redux and Zustand continue to be essential for complex applications.\n\nStaying up-to-date with these trends is crucial for any frontend developer."
-            },
-            {
-                title: "Python Programming Tips",
-                image: "https://images.unsplash.com/photo-1660616246653-e2c57d1077b9?q=80&w=1631&auto=format&fit=crop",
-                desc: "Enhance your Python skills with practical tips, tricks, and real-world examples.",
-                key: "python",
-                content: "## Writing Clean Python Code\n\nWriting good code is not just about functionality; it's about readability and maintainability. Python's PEP 8 style guide helps ensure consistency across projects.\n\n**Tip #1: Use List Comprehensions**\nList comprehensions are a concise way to create lists.\n\n```python\n# Bad\nmy_list = []\nfor x in range(10):\n    my_list.append(x * 2)\n\n# Good\nmy_list = [x * 2 for x in range(10)]\n```"
-            }
-        ];
+  // Elements
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const addBlogNavBtn = document.getElementById("addBlogNavBtn");
+  const loginModal = document.getElementById("loginModal");
+  const addBlogModal = document.getElementById("addBlogModal");
+  const submitLogin = document.getElementById("submitLogin");
+  const addBlogBtn = document.getElementById("addBlogBtn");
+  const cancelAddBlogBtn = document.getElementById("cancelAddBlogBtn");
+  const deleteBlogBtn = document.getElementById("deleteBlogBtn");
+  const cardsContainer = document.getElementById("cardsContainer");
+  const messageBox = document.getElementById("messageBox");
+  const messageText = document.getElementById("messageText");
+  const modalTitle = document.getElementById("modalTitle");
+  const blogKeyInput = document.getElementById("blogKey");
 
-        // Custom message box function
-        function showMessage(message) {
-            messageText.textContent = message;
-            messageBox.classList.remove("hidden");
-            messageBox.style.opacity = 1;
-            setTimeout(() => {
-                messageBox.style.opacity = 0;
-                setTimeout(() => messageBox.classList.add("hidden"), 300);
-            }, 3000);
-        }
+  // Blog inputs
+  const blogTitleInput = document.getElementById("blogTitle");
+  const blogAuthorInput = document.getElementById("blogAuthor");
+  const blogImageInput = document.getElementById("blogImage");
+  const blogContentInput = document.getElementById("blogContent");
+  const previewContent = document.getElementById("previewContent");
 
-        // Renders the blog cards to the main page
-        function renderBlogs() {
-            cardsContainer.innerHTML = "";
-            blogs.forEach(blog => {
-                const card = document.createElement("div");
-                card.className = "neumorphic-card p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300";
-                card.innerHTML = `
-                    <img src="${blog.image}" alt="${blog.title}" class="rounded-xl mb-4 w-full h-48 object-cover transition-transform duration-300 transform hover:scale-105">
-                    <h2 class="text-xl font-bold my-3 gradient-text">${blog.title}</h2>
-                    <p class="text-gray-400 mb-4 line-clamp-3">${blog.desc}</p>
-                    <a href="insight.html?insight=${blog.key}" class="text-blue-400 hover:text-blue-300 font-medium">Read More →</a>
-                    <button class="edit-btn text-blue-400 hover:text-blue-300 font-medium ml-4 hidden" data-key="${blog.key}">Edit</button>
-                `;
-                cardsContainer.appendChild(card);
-            });
-            // Show/hide edit buttons based on login status
-            updateUIForLogin();
-        }
+  // Blogs state
+  let blogs = [];
 
-        renderBlogs();
+  // Show custom message
+  function showMessage(message) {
+    messageText.textContent = message;
+    messageBox.classList.remove("hidden");
+    messageBox.style.opacity = 1;
+    setTimeout(() => {
+      messageBox.style.opacity = 0;
+      setTimeout(() => messageBox.classList.add("hidden"), 300);
+    }, 3000);
+  }
 
-        // Login/Logout state management
-        function setAuthState(loggedIn) {
-            if (loggedIn) {
-                localStorage.setItem("loggedIn", "true");
-                loginBtn.classList.add("hidden");
-                logoutBtn.classList.remove("hidden");
-                addBlogNavBtn.classList.remove("hidden");
-            } else {
-                localStorage.removeItem("loggedIn");
-                loginBtn.classList.remove("hidden");
-                logoutBtn.classList.add("hidden");
-                addBlogNavBtn.classList.add("hidden");
-            }
-            updateUIForLogin();
-        }
+  // Load blogs from Supabase
+  async function loadBlogs() {
+    const { data, error } = await supabase
+      .from("blogs")
+      .select("*")
+      .order("created_at", { ascending: false });
 
-        // Hides/shows edit buttons based on login status
-        function updateUIForLogin() {
-            const isLoggedIn = localStorage.getItem("loggedIn") === "true";
-            document.querySelectorAll(".edit-btn").forEach(btn => {
-                if (isLoggedIn) {
-                    btn.classList.remove("hidden");
-                } else {
-                    btn.classList.add("hidden");
-                }
-            });
-        }
+    if (error) {
+      console.error(error);
+      showMessage("Error loading blogs");
+      return;
+    }
 
-        // Checks login status on page load
-        if (localStorage.getItem("loggedIn") === "true") {
-            setAuthState(true);
-        }
+    blogs = data;
+    renderBlogs();
+  }
 
-        // Opens the Add/Edit blog modal with optional pre-filled content
-        function openAddBlogModal(isNew = true, blogData = {}) {
-            if (isNew) {
-                modalTitle.textContent = "Create a New Blog Post";
-                addBlogBtn.textContent = "Save Blog";
-                blogKeyInput.value = "";
-                // Show the save button and hide the delete button for new blogs
-                addBlogBtn.classList.remove("hidden");
-                deleteBlogBtn.classList.add("hidden");
-                // Pre-fill with a markdown template for demonstration
-                blogContentInput.value = `# My New Blog Post
+  // Add new blog
+  async function addBlog(blog) {
+    const { data, error } = await supabase.from("blogs").insert([blog]).select();
+    if (error) {
+      console.error(error);
+      showMessage("Error adding blog");
+    } else {
+      blogs.unshift(data[0]);
+      renderBlogs();
+      showMessage("Blog added successfully!");
+    }
+  }
 
-## A Subheading
+  // Update blog
+  async function updateBlog(blog, id) {
+    const { data, error } = await supabase.from("blogs").update(blog).eq("id", id).select();
+    if (error) {
+      console.error(error);
+      showMessage("Error updating blog");
+    } else {
+      const idx = blogs.findIndex((b) => b.id === id);
+      blogs[idx] = { ...blogs[idx], ...data[0] };
+      renderBlogs();
+      showMessage("Blog updated successfully!");
+    }
+  }
 
-Start writing your **blog content** here. You can use markdown to format your text.
+  // Delete blog
+  async function deleteBlog(id) {
+    const { error } = await supabase.from("blogs").delete().eq("id", id);
+    if (error) {
+      console.error(error);
+      showMessage("Error deleting blog");
+    } else {
+      blogs = blogs.filter((b) => b.id !== id);
+      renderBlogs();
+      showMessage("Blog deleted successfully!");
+    }
+  }
 
-- Use a bulleted list.
-- Like this.
+  // Render cards
+  function renderBlogs() {
+    cardsContainer.innerHTML = "";
+    blogs.forEach((blog) => {
+      const card = document.createElement("div");
+      card.className =
+        "neumorphic-card p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300";
+      card.innerHTML = `
+        <img src="${blog.image}" alt="${blog.title}" class="rounded-xl mb-4 w-full h-48 object-cover transition-transform duration-300 transform hover:scale-105">
+        <h2 class="text-xl font-bold my-3 gradient-text">${blog.title}</h2>
+        <p class="text-gray-400 mb-4 line-clamp-3">${blog.desc}</p>
+        <a href="insight.html?insight=${blog.id}" class="text-blue-400 hover:text-blue-300 font-medium">Read More →</a>
+        <button class="edit-btn text-blue-400 hover:text-blue-300 font-medium ml-4 hidden" data-id="${blog.id}">Edit</button>
+      `;
+      cardsContainer.appendChild(card);
+    });
+    updateUIForLogin();
+  }
 
-1. Or a numbered list.
-2. Like this.
+  // Auth
+  function setAuthState(loggedIn) {
+    if (loggedIn) {
+      localStorage.setItem("loggedIn", "true");
+      loginBtn.classList.add("hidden");
+      logoutBtn.classList.remove("hidden");
+      addBlogNavBtn.classList.remove("hidden");
+    } else {
+      localStorage.removeItem("loggedIn");
+      loginBtn.classList.remove("hidden");
+      logoutBtn.classList.add("hidden");
+      addBlogNavBtn.classList.add("hidden");
+    }
+    updateUIForLogin();
+  }
 
-You can also use \`code blocks\` for code snippets.
+  function updateUIForLogin() {
+    const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+    document.querySelectorAll(".edit-btn").forEach((btn) => {
+      btn.classList.toggle("hidden", !isLoggedIn);
+    });
+  }
 
-\`\`\`javascript
-// Example Code
-const myVar = 'Hello, World!';
-console.log(myVar);
-\`\`\`
-`;
-                // Set the default author name for a new post
-                blogAuthorInput.value = 'Roshni Mishra';
-            } else {
-                modalTitle.textContent = "Edit Blog Post";
-                addBlogBtn.textContent = "Update Blog";
-                blogKeyInput.value = blogData.key;
-                blogTitleInput.value = blogData.title;
-                blogAuthorInput.value = blogData.author || "Roshni Mishra";
-                blogImageInput.value = blogData.image || "";
-                blogContentInput.value = blogData.content;
-                // Show both save and delete buttons for existing blogs
-                addBlogBtn.classList.remove("hidden");
-                deleteBlogBtn.classList.remove("hidden");
-            }
-            // Update the live preview immediately
-            updatePreview();
-            addBlogModal.classList.remove("hidden");
-        }
+  if (localStorage.getItem("loggedIn") === "true") {
+    setAuthState(true);
+  }
 
-        // Updates the live preview pane with formatted markdown
-        function updatePreview() {
-            const markdownText = blogContentInput.value;
-            previewContent.innerHTML = marked.parse(markdownText);
-        }
+  // Blog modal
+  function openAddBlogModal(isNew = true, blogData = {}) {
+    if (isNew) {
+      modalTitle.textContent = "Create a New Blog Post";
+      addBlogBtn.textContent = "Save Blog";
+      blogKeyInput.value = "";
+      addBlogBtn.classList.remove("hidden");
+      deleteBlogBtn.classList.add("hidden");
+      blogTitleInput.value = "";
+      blogAuthorInput.value = "Roshni Mishra";
+      blogImageInput.value = "";
+      blogContentInput.value = "";
+    } else {
+      modalTitle.textContent = "Edit Blog Post";
+      addBlogBtn.textContent = "Update Blog";
+      blogKeyInput.value = blogData.id;
+      blogTitleInput.value = blogData.title;
+      blogAuthorInput.value = blogData.author || "Roshni Mishra";
+      blogImageInput.value = blogData.image || "";
+      blogContentInput.value = blogData.content;
+      addBlogBtn.classList.remove("hidden");
+      deleteBlogBtn.classList.remove("hidden");
+    }
+    updatePreview();
+    addBlogModal.classList.remove("hidden");
+  }
 
-        // Event Listeners
-        loginBtn.addEventListener("click", () => loginModal.classList.remove("hidden"));
-        submitLogin.addEventListener("click", () => {
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+  function updatePreview() {
+    const markdownText = blogContentInput.value;
+    previewContent.innerHTML = marked.parse(markdownText);
+  }
 
-            if (email === USER_EMAIL && password === USER_PASS) {
-                loginModal.classList.add("hidden");
-                setAuthState(true);
-                showMessage("Login successful!");
-            } else {
-                showMessage("Invalid email or password!");
-            }
-        });
+  // Events
+  loginBtn.addEventListener("click", () => loginModal.classList.remove("hidden"));
+  submitLogin.addEventListener("click", () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    if (email === USER_EMAIL && password === USER_PASS) {
+      loginModal.classList.add("hidden");
+      setAuthState(true);
+      showMessage("Login successful!");
+    } else {
+      showMessage("Invalid email or password!");
+    }
+  });
 
-        logoutBtn.addEventListener("click", () => {
-            setAuthState(false);
-            showMessage("Logged out successfully!");
-        });
+  logoutBtn.addEventListener("click", () => {
+    setAuthState(false);
+    showMessage("Logged out successfully!");
+  });
 
-        addBlogNavBtn.addEventListener("click", () => openAddBlogModal(true));
-        cancelAddBlogBtn.addEventListener("click", () => addBlogModal.classList.add("hidden"));
+  addBlogNavBtn.addEventListener("click", () => openAddBlogModal(true));
+  cancelAddBlogBtn.addEventListener("click", () => addBlogModal.classList.add("hidden"));
 
-        // Add/Edit blog logic
-        addBlogBtn.addEventListener("click", () => {
-            const title = blogTitleInput.value.trim();
-            const author = blogAuthorInput.value.trim() || "Roshni Mishra";
-            const image = blogImageInput.value.trim();
-            const content = blogContentInput.value.trim();
-            const key = blogKeyInput.value.trim();
+  addBlogBtn.addEventListener("click", async () => {
+    const title = blogTitleInput.value.trim();
+    const author = blogAuthorInput.value.trim() || "Roshni Mishra";
+    const image = blogImageInput.value.trim();
+    const content = blogContentInput.value.trim();
+    const id = blogKeyInput.value.trim();
 
-            if (title && content) {
-                const desc = content.substring(0, 200).replace(/\n/g, ' ') + '...';
-                const blogImage = image || "https://placehold.co/800x600/1a202c/FFFFFF?text=" + encodeURIComponent(title.split(' ')[0]);
+    if (title && content) {
+      const desc = content.substring(0, 200).replace(/\n/g, " ") + "...";
+      const blogImage =
+        image ||
+        "https://placehold.co/800x600/1a202c/FFFFFF?text=" +
+          encodeURIComponent(title.split(" ")[0]);
 
-                if (key) {
-                    // Update existing blog
-                    const blogIndex = blogs.findIndex(b => b.key === key);
-                    if (blogIndex !== -1) {
-                        blogs[blogIndex] = { ...blogs[blogIndex], title, author, desc, content, image: blogImage };
-                        showMessage("Blog updated successfully!");
-                    }
-                } else {
-                    // Add new blog
-                    const newBlog = { title, author, desc, key: window.crypto.randomUUID(), content, image: blogImage };
-                    blogs.push(newBlog);
-                    showMessage("Blog added successfully!");
-                }
+      const blogData = { title, author, desc, content, image: blogImage };
 
-                localStorage.setItem("blogs", JSON.stringify(blogs));
-                renderBlogs();
+      if (id) {
+        await updateBlog(blogData, id);
+      } else {
+        await addBlog(blogData);
+      }
 
-                // Clear inputs and hide modal
-                blogTitleInput.value = "";
-                blogAuthorInput.value = "";
-                blogImageInput.value = "";
-                blogContentInput.value = "";
-                addBlogModal.classList.add("hidden");
-            } else {
-                showMessage("Please fill out all required fields!");
-            }
-        });
+      addBlogModal.classList.add("hidden");
+    } else {
+      showMessage("Please fill out all required fields!");
+    }
+  });
 
-        // Delete blog logic
-        deleteBlogBtn.addEventListener("click", () => {
-            const keyToDelete = blogKeyInput.value.trim();
-            if (keyToDelete) {
-                const updatedBlogs = blogs.filter(b => b.key !== keyToDelete);
-                blogs = updatedBlogs;
-                localStorage.setItem("blogs", JSON.stringify(blogs));
-                renderBlogs();
-                showMessage("Blog deleted successfully!");
-                addBlogModal.classList.add("hidden");
-            }
-        });
+  deleteBlogBtn.addEventListener("click", async () => {
+    const idToDelete = blogKeyInput.value.trim();
+    if (idToDelete) {
+      await deleteBlog(idToDelete);
+      addBlogModal.classList.add("hidden");
+    }
+  });
 
-        // Edit button click listener
-        document.addEventListener("click", (e) => {
-            if (e.target.classList.contains("edit-btn")) {
-                const blogKey = e.target.getAttribute("data-key");
-                const blogToEdit = blogs.find(b => b.key === blogKey);
+  document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("edit-btn")) {
+      const blogId = e.target.getAttribute("data-id");
+      const blogToEdit = blogs.find((b) => b.id === blogId);
+      if (blogToEdit) {
+        openAddBlogModal(false, blogToEdit);
+      }
+    }
+  });
 
-                if (blogToEdit) {
-                    openAddBlogModal(false, blogToEdit);
-                }
-            }
-        });
+  blogContentInput.addEventListener("input", updatePreview);
 
-        // Event listener for live preview
-        blogContentInput.addEventListener("input", updatePreview);
-    </script>
-</body>
+  // Initial load
+  loadBlogs();
+</script>
 
 </html>
+
