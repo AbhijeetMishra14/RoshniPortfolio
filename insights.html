@@ -300,19 +300,30 @@ console.log(myVar);`</li>
     </div>
 
 <script type="module">
-  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+  // Firebase imports
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.2/firebase-app.js";
+  import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.6.2/firebase-firestore.js";
 
-  // Supabase connection
-  const SUPABASE_URL = "https://fyvbghzbgmfiernwhzqh.supabase.co";
-  const SUPABASE_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5dmJnaHpiZ21maWVybndoenFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTIwMDAsImV4cCI6MjA3MjM4ODAwMH0.GM7ScijBX-ZthVkI60pvbYeAqQLfdd4qZwuQDWcJZNM";
-  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyBKXdLLXhAwgm8JE4eGmGEnDq6YGs2x-oo",
+    authDomain: "roshni-portfolio-01.firebaseapp.com",
+    projectId: "roshni-portfolio-01",
+    storageBucket: "roshni-portfolio-01.firebasestorage.app",
+    messagingSenderId: "129693722093",
+    appId: "1:129693722093:web:2c0075a465d48451f3f3e4",
+    measurementId: "G-QGCW2GCNPM"
+  };
 
-  // Predefined user (leave as is for now)
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Predefined user (leave as is)
   const USER_EMAIL = "roshnimishra@gmail.com";
   const USER_PASS = "roshnimishra001";
 
-  // Elements
+  // Elements (same as before)
   const loginBtn = document.getElementById("loginBtn");
   const logoutBtn = document.getElementById("logoutBtn");
   const addBlogNavBtn = document.getElementById("addBlogNavBtn");
@@ -328,17 +339,14 @@ console.log(myVar);`</li>
   const modalTitle = document.getElementById("modalTitle");
   const blogKeyInput = document.getElementById("blogKey");
 
-  // Blog inputs
   const blogTitleInput = document.getElementById("blogTitle");
   const blogAuthorInput = document.getElementById("blogAuthor");
   const blogImageInput = document.getElementById("blogImage");
   const blogContentInput = document.getElementById("blogContent");
   const previewContent = document.getElementById("previewContent");
 
-  // Blogs state
   let blogs = [];
 
-  // Show custom message
   function showMessage(message) {
     messageText.textContent = message;
     messageBox.classList.remove("hidden");
@@ -349,70 +357,66 @@ console.log(myVar);`</li>
     }, 3000);
   }
 
-  // Load blogs from Supabase
+  // Load blogs from Firebase
   async function loadBlogs() {
-    const { data, error } = await supabase
-      .from("blogs")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) {
+    try {
+      const q = query(collection(db, "blogs"), orderBy("created_at", "desc"));
+      const querySnapshot = await getDocs(q);
+      blogs = querySnapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+      renderBlogs();
+    } catch (error) {
       console.error(error);
       showMessage("Error loading blogs");
-      return;
     }
-
-    blogs = data;
-    renderBlogs();
   }
 
   // Add new blog
   async function addBlog(blog) {
-    const { data, error } = await supabase.from("blogs").insert([blog]).select();
-    if (error) {
-      console.error(error);
-      showMessage("Error adding blog");
-    } else {
-      blogs.unshift(data[0]);
+    try {
+      const docRef = await addDoc(collection(db, "blogs"), { ...blog, created_at: new Date() });
+      blogs.unshift({ id: docRef.id, ...blog });
       renderBlogs();
       showMessage("Blog added successfully!");
+    } catch (error) {
+      console.error(error);
+      showMessage("Error adding blog");
     }
   }
 
   // Update blog
   async function updateBlog(blog, id) {
-    const { data, error } = await supabase.from("blogs").update(blog).eq("id", id).select();
-    if (error) {
-      console.error(error);
-      showMessage("Error updating blog");
-    } else {
-      const idx = blogs.findIndex((b) => b.id === id);
-      blogs[idx] = { ...blogs[idx], ...data[0] };
+    try {
+      const docRef = doc(db, "blogs", id);
+      await updateDoc(docRef, blog);
+      const idx = blogs.findIndex(b => b.id === id);
+      blogs[idx] = { ...blogs[idx], ...blog };
       renderBlogs();
       showMessage("Blog updated successfully!");
+    } catch (error) {
+      console.error(error);
+      showMessage("Error updating blog");
     }
   }
 
   // Delete blog
   async function deleteBlog(id) {
-    const { error } = await supabase.from("blogs").delete().eq("id", id);
-    if (error) {
-      console.error(error);
-      showMessage("Error deleting blog");
-    } else {
-      blogs = blogs.filter((b) => b.id !== id);
+    try {
+      await deleteDoc(doc(db, "blogs", id));
+      blogs = blogs.filter(b => b.id !== id);
       renderBlogs();
       showMessage("Blog deleted successfully!");
+    } catch (error) {
+      console.error(error);
+      showMessage("Error deleting blog");
     }
   }
 
-  // Render cards
+  // Render blogs
   function renderBlogs() {
     cardsContainer.innerHTML = "";
-    blogs.forEach((blog) => {
+    blogs.forEach(blog => {
       const card = document.createElement("div");
-      card.className =
-        "neumorphic-card p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300";
+      card.className = "neumorphic-card p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300";
       card.innerHTML = `
         <img src="${blog.image}" alt="${blog.title}" class="rounded-xl mb-4 w-full h-48 object-cover transition-transform duration-300 transform hover:scale-105">
         <h2 class="text-xl font-bold my-3 gradient-text">${blog.title}</h2>
@@ -425,7 +429,7 @@ console.log(myVar);`</li>
     updateUIForLogin();
   }
 
-  // Auth
+  // Auth and UI
   function setAuthState(loggedIn) {
     if (loggedIn) {
       localStorage.setItem("loggedIn", "true");
@@ -443,16 +447,14 @@ console.log(myVar);`</li>
 
   function updateUIForLogin() {
     const isLoggedIn = localStorage.getItem("loggedIn") === "true";
-    document.querySelectorAll(".edit-btn").forEach((btn) => {
+    document.querySelectorAll(".edit-btn").forEach(btn => {
       btn.classList.toggle("hidden", !isLoggedIn);
     });
   }
 
-  if (localStorage.getItem("loggedIn") === "true") {
-    setAuthState(true);
-  }
+  if (localStorage.getItem("loggedIn") === "true") setAuthState(true);
 
-  // Blog modal
+  // Blog modal logic (same as before)
   function openAddBlogModal(isNew = true, blogData = {}) {
     if (isNew) {
       modalTitle.textContent = "Create a New Blog Post";
@@ -480,11 +482,10 @@ console.log(myVar);`</li>
   }
 
   function updatePreview() {
-    const markdownText = blogContentInput.value;
-    previewContent.innerHTML = marked.parse(markdownText);
+    previewContent.innerHTML = marked.parse(blogContentInput.value);
   }
 
-  // Events
+  // Event listeners (same as before)
   loginBtn.addEventListener("click", () => loginModal.classList.remove("hidden"));
   submitLogin.addEventListener("click", () => {
     const email = document.getElementById("email").value;
@@ -515,18 +516,11 @@ console.log(myVar);`</li>
 
     if (title && content) {
       const desc = content.substring(0, 200).replace(/\n/g, " ") + "...";
-      const blogImage =
-        image ||
-        "https://placehold.co/800x600/1a202c/FFFFFF?text=" +
-          encodeURIComponent(title.split(" ")[0]);
-
+      const blogImage = image || `https://placehold.co/800x600/1a202c/FFFFFF?text=${encodeURIComponent(title.split(" ")[0])}`;
       const blogData = { title, author, desc, content, image: blogImage };
 
-      if (id) {
-        await updateBlog(blogData, id);
-      } else {
-        await addBlog(blogData);
-      }
+      if (id) await updateBlog(blogData, id);
+      else await addBlog(blogData);
 
       addBlogModal.classList.add("hidden");
     } else {
@@ -542,13 +536,11 @@ console.log(myVar);`</li>
     }
   });
 
-  document.addEventListener("click", (e) => {
+  document.addEventListener("click", e => {
     if (e.target.classList.contains("edit-btn")) {
       const blogId = e.target.getAttribute("data-id");
-      const blogToEdit = blogs.find((b) => b.id === blogId);
-      if (blogToEdit) {
-        openAddBlogModal(false, blogToEdit);
-      }
+      const blogToEdit = blogs.find(b => b.id === blogId);
+      if (blogToEdit) openAddBlogModal(false, blogToEdit);
     }
   });
 
@@ -558,5 +550,7 @@ console.log(myVar);`</li>
   loadBlogs();
 </script>
 
+
 </html>
+
 
