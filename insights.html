@@ -300,10 +300,11 @@ console.log(myVar);`</li>
     </div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-  import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+  // Firebase imports
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.2/firebase-app.js";
+  import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.6.2/firebase-firestore.js";
 
-  // Firebase config (your version)
+  // Firebase config
   const firebaseConfig = {
     apiKey: "AIzaSyBKXdLLXhAwgm8JE4eGmGEnDq6YGs2x-oo",
     authDomain: "roshni-portfolio-01.firebaseapp.com",
@@ -314,10 +315,15 @@ console.log(myVar);`</li>
     measurementId: "G-QGCW2GCNPM"
   };
 
+  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // Elements
+  // Predefined user (leave as is)
+  const USER_EMAIL = "roshnimishra@gmail.com";
+  const USER_PASS = "roshnimishra001";
+
+  // Elements (same as before)
   const loginBtn = document.getElementById("loginBtn");
   const logoutBtn = document.getElementById("logoutBtn");
   const addBlogNavBtn = document.getElementById("addBlogNavBtn");
@@ -332,14 +338,12 @@ console.log(myVar);`</li>
   const messageText = document.getElementById("messageText");
   const modalTitle = document.getElementById("modalTitle");
   const blogKeyInput = document.getElementById("blogKey");
+
   const blogTitleInput = document.getElementById("blogTitle");
   const blogAuthorInput = document.getElementById("blogAuthor");
   const blogImageInput = document.getElementById("blogImage");
   const blogContentInput = document.getElementById("blogContent");
   const previewContent = document.getElementById("previewContent");
-
-  const USER_EMAIL = "roshnimishra@gmail.com";
-  const USER_PASS = "roshnimishra001";
 
   let blogs = [];
 
@@ -353,6 +357,7 @@ console.log(myVar);`</li>
     }, 3000);
   }
 
+  // Load blogs from Firebase
   async function loadBlogs() {
     try {
       const q = query(collection(db, "blogs"), orderBy("created_at", "desc"));
@@ -365,9 +370,10 @@ console.log(myVar);`</li>
     }
   }
 
+  // Add new blog
   async function addBlog(blog) {
     try {
-      const docRef = await addDoc(collection(db, "blogs"), { ...blog, created_at: serverTimestamp() });
+      const docRef = await addDoc(collection(db, "blogs"), { ...blog, created_at: new Date() });
       blogs.unshift({ id: docRef.id, ...blog });
       renderBlogs();
       showMessage("Blog added successfully!");
@@ -377,6 +383,7 @@ console.log(myVar);`</li>
     }
   }
 
+  // Update blog
   async function updateBlog(blog, id) {
     try {
       const docRef = doc(db, "blogs", id);
@@ -391,6 +398,7 @@ console.log(myVar);`</li>
     }
   }
 
+  // Delete blog
   async function deleteBlog(id) {
     try {
       await deleteDoc(doc(db, "blogs", id));
@@ -403,6 +411,7 @@ console.log(myVar);`</li>
     }
   }
 
+  // Render blogs
   function renderBlogs() {
     cardsContainer.innerHTML = "";
     blogs.forEach(blog => {
@@ -420,6 +429,7 @@ console.log(myVar);`</li>
     updateUIForLogin();
   }
 
+  // Auth and UI
   function setAuthState(loggedIn) {
     if (loggedIn) {
       localStorage.setItem("loggedIn", "true");
@@ -444,6 +454,7 @@ console.log(myVar);`</li>
 
   if (localStorage.getItem("loggedIn") === "true") setAuthState(true);
 
+  // Blog modal logic (same as before)
   function openAddBlogModal(isNew = true, blogData = {}) {
     if (isNew) {
       modalTitle.textContent = "Create a New Blog Post";
@@ -474,7 +485,7 @@ console.log(myVar);`</li>
     previewContent.innerHTML = marked.parse(blogContentInput.value);
   }
 
-  // Event listeners
+  // Event listeners (same as before)
   loginBtn.addEventListener("click", () => loginModal.classList.remove("hidden"));
   submitLogin.addEventListener("click", () => {
     const email = document.getElementById("email").value;
@@ -535,10 +546,13 @@ console.log(myVar);`</li>
 
   blogContentInput.addEventListener("input", updatePreview);
 
+  // Initial load
   loadBlogs();
 </script>
 
+
 </html>
+
 
 
 
