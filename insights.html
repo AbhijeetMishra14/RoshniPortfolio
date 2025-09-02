@@ -76,19 +76,23 @@
         .btn-primary {
             background-color: #a6e22e;
             color: #1a202c;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
         .btn-primary:hover {
             background-color: #92cd2a;
+            transform: scale(1.05);
         }
 
         .btn-secondary {
             background-color: #66d9ef;
             color: #1a202c;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
         .btn-secondary:hover {
             background-color: #55c6db;
+            transform: scale(1.05);
         }
 
         .input-field {
@@ -96,6 +100,12 @@
             color: #cbd5e0;
             border: none;
             box-shadow: inset 2px 2px 5px #121820, inset -2px -2px 5px #22283a;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            box-shadow: inset 2px 2px 5px #121820, inset -2px -2px 5px #22283a, 0 0 0 2px #66d9ef;
         }
 
         .modal-overlay {
@@ -121,24 +131,14 @@
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
-            overflow: hidden;
         }
-
-        .blog-editor-container input,
-        .blog-editor-container textarea {
-            background-color: #2d3748;
-            color: #cbd5e0;
-            border: none;
-            box-shadow: inset 2px 2px 5px #121820, inset -2px -2px 5px #22283a;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .blog-editor-container textarea {
+        
+        .blog-editor-content {
             flex-grow: 1;
-            min-height: 200px;
-            resize: vertical;
+            display: grid;
+            gap: 2rem;
+            overflow-y: auto;
+            min-height: 0;
         }
 
         /* --- STYLES FOR THE LIVE PREVIEW PANE --- */
@@ -148,7 +148,7 @@
             border-radius: 0.5rem;
             overflow-y: auto;
             border: 2px solid #2d3748;
-            height: 100%;
+            flex-grow: 1;
         }
 
         #previewContent h1,
@@ -225,7 +225,7 @@
 <body class="antialiased min-h-screen">
 
     <!-- Navbar -->
-    <nav class="fixed top-0 w-full bg-opacity-80 backdrop-filter backdrop-blur-lg z-50 shadow-lg"
+    <nav class="fixed top-0 w-full bg-opacity-80 backdrop-filter backdrop-blur-lg z-50 shadow-lg transition-all duration-300"
         style="background-color: #1a202c;">
         <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
             <a href="index.html" class="text-xl font-bold gradient-text">Roshni Portfolio</a>
@@ -262,24 +262,34 @@
     </footer>
 
     <!-- Login Modal -->
-    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center hidden">
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center hidden z-50">
         <div class="neumorphic-card p-8 rounded-2xl shadow-lg w-96">
             <h2 class="text-2xl font-bold text-center mb-4">Admin Login</h2>
             <input id="email" type="email" placeholder="Email" class="input-field w-full p-3 mb-4 rounded-lg">
-            <input id="password" type="password" placeholder="Password"
-                class="input-field w-full p-3 mb-6 rounded-lg">
+            <div class="relative mb-6">
+                <input id="password" type="password" placeholder="Password" class="input-field w-full p-3 rounded-lg pr-12">
+                <button id="togglePassword" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path id="eyeOpen" d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                        <path id="eyeClosed" class="hidden" d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                        <path id="slash" class="hidden" fill-rule="evenodd" d="M10 3a7 7 0 00-6.236 4.316l-1.373 1.374a.75.75 0 001.06 1.06l1.374-1.373A7.001 7.001 0 0010 3zm-6.236 7.684L1.391 12.06a.75.75 0 001.06 1.06l2.373-2.373A7.001 7.001 0 0010 17a.75.75 0 000-1.5 5.5 5.5 0 01-4.872-3.136l1.58-1.58a.75.75 0 00-1.06-1.06z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
             <button id="submitLogin"
                 class="btn-primary w-full p-3 rounded-full font-bold transition-all duration-300 transform hover:scale-105">Login</button>
         </div>
     </div>
+
 
     <!-- Add/Edit Blog Modal (Full-screen editor) -->
     <div id="addBlogModal" class="modal-overlay hidden">
         <div class="blog-editor-container neumorphic-card">
             <h2 id="modalTitle" class="text-3xl font-bold mb-4 gradient-text">Create a New Blog Post</h2>
             <input type="hidden" id="blogKey">
-            <!-- Three-column grid for editor, preview, and guide -->
-            <div class="grid md:grid-cols-3 gap-8 h-full min-h-[500px]">
+            <!-- The main scrolling content area -->
+            <div class="blog-editor-content grid grid-cols-1 md:grid-cols-3">
                 <!-- Input/Editor Column -->
                 <div class="flex flex-col h-full">
                     <input id="blogTitle" type="text" placeholder="Blog Title"
@@ -290,13 +300,13 @@
                         class="input-field w-full p-3 rounded-lg text-lg">
                     <!-- Markdown Editor -->
                     <textarea id="blogContent" placeholder="Start writing your blog content here..."
-                        class="input-field w-full p-3 rounded-lg text-base flex-grow min-h-[300px]"></textarea>
+                        class="input-field w-full p-3 rounded-lg text-base flex-1 min-h-[300px]"></textarea>
                 </div>
                 <!-- Live Preview Column -->
                 <div class="flex flex-col h-full">
                     <h3 class="text-xl font-bold mb-4 gradient-text">Live Preview</h3>
                     <!-- This div will display the formatted markdown output -->
-                    <div id="previewContent" class="input-field overflow-y-auto"></div>
+                    <div id="previewContent" class="input-field"></div>
                 </div>
                 <!-- Markdown Quick Guide Column -->
                 <div class="flex flex-col h-full">
@@ -373,6 +383,7 @@ console.log(myVar);`</li>
         const submitLoginBtn = document.getElementById("submitLogin");
         const emailInput = document.getElementById("email");
         const passwordInput = document.getElementById("password");
+        const togglePasswordBtn = document.getElementById("togglePassword");
         const addBlogModal = document.getElementById("addBlogModal");
         const addBlogBtn = document.getElementById("addBlogBtn");
         const cancelAddBlogBtn = document.getElementById("cancelAddBlogBtn");
@@ -384,6 +395,9 @@ console.log(myVar);`</li>
         const blogKeyInput = document.getElementById("blogKey");
         const userIdDisplay = document.getElementById("userIdDisplay");
         const loadingMessage = document.getElementById("loadingMessage");
+        const eyeOpenIcon = document.getElementById("eyeOpen");
+        const eyeClosedIcon = document.getElementById("eyeClosed");
+        const slashIcon = document.getElementById("slash");
 
         // Blog content inputs and preview
         const blogTitleInput = document.getElementById("blogTitle");
@@ -413,10 +427,17 @@ console.log(myVar);`</li>
                 blogs.forEach(blog => {
                     const card = document.createElement("div");
                     card.className = "neumorphic-card p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300";
+                    
+                    // Create a short description with a maximum of 200 characters
+                    let shortDesc = blog.content ? blog.content.substring(0, 200) + '...' : '';
+                    
+                    // Convert markdown in the short description to HTML for rendering
+                    const renderedDesc = marked.parse(shortDesc);
+
                     card.innerHTML = `
                         <img src="${blog.image}" onerror="this.onerror=null; this.src='https://placehold.co/800x600/1a202c/FFFFFF?text=Placeholder'" alt="${blog.title}" class="rounded-xl mb-4 w-full h-48 object-cover transition-transform duration-300 transform hover:scale-105">
                         <h2 class="text-xl font-bold my-3 gradient-text">${blog.title}</h2>
-                        <p class="text-gray-400 mb-4 line-clamp-3">${blog.desc}</p>
+                        <div class="text-gray-400 mb-4 line-clamp-3">${renderedDesc}</div>
                         <a href="/insight.html?key=${blog.key}" class="text-blue-400 hover:text-blue-300 font-medium read-more-btn">Read More →</a>
                         <button class="edit-btn text-blue-400 hover:text-blue-300 font-medium ml-4 hidden" data-key="${blog.key}">Edit</button>
                     `;
@@ -562,6 +583,15 @@ console.log(myVar);
         addBlogNavBtn.addEventListener("click", () => openAddBlogModal(true));
         cancelAddBlogBtn.addEventListener("click", () => addBlogModal.classList.add("hidden"));
 
+        // Toggle password visibility
+        togglePasswordBtn.addEventListener("click", () => {
+            const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+            passwordInput.setAttribute("type", type);
+            eyeOpenIcon.classList.toggle("hidden");
+            eyeClosedIcon.classList.toggle("hidden");
+            slashIcon.classList.toggle("hidden");
+        });
+
         submitLoginBtn.addEventListener("click", async () => {
             const email = emailInput.value.trim();
             const password = passwordInput.value.trim();
@@ -617,8 +647,8 @@ console.log(myVar);
                     }
                     addBlogModal.classList.add("hidden");
                 } catch (e) {
-                    console.error("Error saving blog:", e);
-                    showMessage("Failed to save blog post.");
+                console.error("Error saving blog:", e);
+                showMessage("Failed to save blog post.");
                 }
             } else {
                 showMessage("Please fill out all required fields and ensure you are authenticated.");
