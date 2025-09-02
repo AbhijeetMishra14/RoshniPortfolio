@@ -2,184 +2,199 @@
 <html lang="en" class="scroll-smooth">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insight Details</title>
-    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #1a202c;
-            color: #cbd5e0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insight Details</title>
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #1a202c;
+      color: #cbd5e0;
+    }
 
-        .gradient-text {
-            background-image: linear-gradient(to right, #66d9ef, #a6e22e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            color: transparent;
-        }
+    .gradient-text {
+      background-image: linear-gradient(to right, #66d9ef, #a6e22e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
 
-        .neumorphic-card {
-            background-color: #1a202c;
-            box-shadow: 8px 8px 16px #121820, -8px -8px 16px #22283a;
-            transition: all 0.3s ease;
-        }
+    .neumorphic-card {
+      background-color: #1a202c;
+      box-shadow: 8px 8px 16px #121820, -8px -8px 16px #22283a;
+      transition: all 0.3s ease;
+    }
 
-        .hero-image {
-            width: 100%;
-            height: auto; /* Changed to auto to maintain aspect ratio */
-            max-height: 400px; /* Max height to prevent overly large images */
-            object-fit: cover;
-            border-radius: 1rem;
-            box-shadow: 8px 8px 16px #121820, -8px -8px 16px #22283a;
-        }
+    .hero-image {
+      width: 100%;
+      height: auto;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 1rem;
+      box-shadow: 8px 8px 16px #121820, -8px -8px 16px #22283a;
+    }
 
-        .content-container {
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
+    .content-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
 
-        @media (min-width: 768px) {
-            .content-container {
-                padding: 0 2rem;
-            }
-        }
+    @media (min-width: 768px) {
+      .content-container {
+        padding: 0 2rem;
+      }
+    }
 
-        a.back-btn {
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            color: #66d9ef;
-            font-weight: 600;
-            transition: color 0.2s ease;
-        }
+    a.back-btn {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      color: #66d9ef;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
 
-        a.back-btn:hover {
-            color: #a6e22e;
-        }
+    a.back-btn:hover {
+      color: #a6e22e;
+    }
 
-        #insight-content h1,
-        #insight-content h2,
-        #insight-content h3 {
-            font-weight: bold;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-        }
+    #insight-content h1,
+    #insight-content h2,
+    #insight-content h3 {
+      font-weight: bold;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
 
-        #insight-content h1 {
-            font-size: 2.25rem;
-            color: #a6e22e;
-        }
+    #insight-content h1 {
+      font-size: 2.25rem;
+      color: #a6e22e;
+    }
 
-        #insight-content h2 {
-            font-size: 1.75rem;
-            color: #a6e22e;
-        }
+    #insight-content h2 {
+      font-size: 1.75rem;
+      color: #a6e22e;
+    }
 
-        #insight-content h3 {
-            font-size: 1.5rem;
-            color: #66d9ef;
-        }
+    #insight-content h3 {
+      font-size: 1.5rem;
+      color: #66d9ef;
+    }
 
-        #insight-content p {
-            margin-bottom: 1rem;
-        }
+    #insight-content p {
+      margin-bottom: 1rem;
+    }
 
-        #insight-content ul,
-        #insight-content ol {
-            list-style-position: inside;
-            margin-bottom: 1rem;
-            padding-left: 1.5rem;
-        }
+    #insight-content ul,
+    #insight-content ol {
+      list-style-position: inside;
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+    }
 
-        #insight-content ul {
-            list-style-type: disc;
-        }
+    #insight-content ul {
+      list-style-type: disc;
+    }
 
-        #insight-content ol {
-            list-style-type: decimal;
-        }
+    #insight-content ol {
+      list-style-type: decimal;
+    }
 
-        #insight-content a {
-            color: #66d9ef;
-            text-decoration: underline;
-        }
+    #insight-content a {
+      color: #66d9ef;
+      text-decoration: underline;
+    }
 
-        #insight-content strong {
-            color: #a6e22e;
-        }
+    #insight-content strong {
+      color: #a6e22e;
+    }
 
-        #insight-content pre {
-            background-color: #2d3748;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            overflow-x: auto;
-            margin-bottom: 1rem;
-            border: 1px solid #4a5568;
-        }
+    #insight-content pre {
+      background-color: #2d3748;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+      border: 1px solid #4a5568;
+    }
 
-        #insight-content code {
-            font-family: monospace;
-        }
-    </style>
+    #insight-content code {
+      font-family: monospace;
+    }
+  </style>
 </head>
 
 <body class="antialiased">
 
-    <!-- Navbar (same as the main page for consistency) -->
-    <nav class="fixed top-0 w-full bg-opacity-80 backdrop-filter backdrop-blur-lg z-50 shadow-lg"
-        style="background-color: #1a202c;">
-        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="insights.html" class="text-xl font-bold gradient-text">Roshni Portfolio</a>
-        </div>
-    </nav>
-
-    <div class="pt-24 content-container">
-        <a href="insights.html" class="back-btn">← Back to Insights</a>
-        <h1 id="insight-title" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-2 gradient-text"></h1>
-        <p id="insight-author" class="text-gray-500 text-sm sm:text-base mb-6"></p>
-        <img id="insight-image" class="hero-image mb-10" src="" alt="Insight Image"
-             onerror="this.src='https://placehold.co/1200x600/1a202c/FFFFFF?text=Image+Not+Found';">
-        <div id="insight-content" class="text-gray-300 text-sm sm:text-base leading-relaxed"></div>
+  <!-- Navbar -->
+  <nav class="fixed top-0 w-full bg-opacity-80 backdrop-filter backdrop-blur-lg z-50 shadow-lg"
+    style="background-color: #1a202c;">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="insights.html" class="text-xl font-bold gradient-text">Roshni Portfolio</a>
     </div>
+  </nav>
 
-    <footer class="py-6 text-center text-gray-500 border-t border-gray-700 mt-12">
-        <p class="text-sm">© 2025 Roshni Portfolio. All Rights Reserved.</p>
-    </footer>
+  <div class="pt-24 content-container">
+    <a href="insights.html" class="back-btn">← Back to Insights</a>
+    <h1 id="insight-title" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-2 gradient-text"></h1>
+    <p id="insight-author" class="text-gray-500 text-sm sm:text-base mb-6"></p>
+    <img id="insight-image" class="hero-image mb-10" src=""
+      onerror="this.src='https://placehold.co/1200x600/1a202c/FFFFFF?text=Image+Not+Found';" alt="Insight Image">
+    <div id="insight-content" class="text-gray-300 text-sm sm:text-base leading-relaxed"></div>
+  </div>
 
-    <!-- Include Markdown parser -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>
-        // Get the query parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const insightKey = urlParams.get("insight");
+  <footer class="py-6 text-center text-gray-500 border-t border-gray-700 mt-12">
+    <p class="text-sm">© 2025 Roshni Portfolio. All Rights Reserved.</p>
+  </footer>
 
-        // Get all blogs from localStorage
-        const storedBlogs = JSON.parse(localStorage.getItem("blogs")) || [];
+  <!-- Markdown parser -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-        // Find the blog that matches the key
-        const blog = storedBlogs.find(b => b.key === insightKey);
+  <!-- Supabase client -->
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-        if (blog) {
-            document.getElementById("insight-title").textContent = blog.title;
-            document.getElementById("insight-author").textContent = "By: " + (blog.author || "Roshni Mishra");
-            document.getElementById("insight-image").src = blog.image;
-            // Parse Markdown content and insert into the div
-            document.getElementById("insight-content").innerHTML = marked.parse(blog.content);
-        } else {
-            // Fallback if blog not found
-            document.getElementById("insight-title").textContent = "Insight Not Found";
-            document.getElementById("insight-author").textContent = "";
-            document.getElementById("insight-content").textContent = "The insight you are looking for does not exist or an error occurred.";
-            document.getElementById("insight-image").src = "https://placehold.co/1200x600/1a202c/FFFFFF?text=Content+Not+Found";
-        }
-    </script>
+    const SUPABASE_URL = "https://fyvbghzbgmfiernwhzqh.supabase.co";
+    const SUPABASE_KEY =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5dmJnaHpiZ21maWVybndoenFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTIwMDAsImV4cCI6MjA3MjM4ODAwMH0.GM7ScijBX-ZthVkI60pvbYeAqQLfdd4qZwuQDWcJZNM";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Get URL query param
+    const urlParams = new URLSearchParams(window.location.search);
+    const insightKey = urlParams.get("insight");
+
+    async function loadInsight() {
+      const { data, error } = await supabase
+        .from("blogs") // table name in Supabase
+        .select("*")
+        .eq("key", insightKey) // match blog key
+        .single();
+
+      if (error || !data) {
+        document.getElementById("insight-title").textContent = "Insight Not Found";
+        document.getElementById("insight-content").textContent =
+          "The insight you are looking for does not exist or an error occurred.";
+        document.getElementById("insight-image").src =
+          "https://placehold.co/1200x600/1a202c/FFFFFF?text=Content+Not+Found";
+        return;
+      }
+
+      document.getElementById("insight-title").textContent = data.title;
+      document.getElementById("insight-author").textContent =
+        "By: " + (data.author || "Roshni Mishra");
+      document.getElementById("insight-image").src = data.image;
+      document.getElementById("insight-content").innerHTML = marked.parse(data.content);
+    }
+
+    loadInsight();
+  </script>
 </body>
 
 </html>
